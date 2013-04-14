@@ -1,7 +1,119 @@
-/** column_name data_type, ... **/
-CREATE TABLE Wohnung (ID int, Ort varchar(100), PLZ int, Strasse varchar(100), HausNr int, Flaeche float); /* fehlt noch spezielles */
-CREATE TABLE Haus (ID int, Ort varchar(100), PLZ int, Strasse varchar(100), HausNr int, Flaeche float); /* fehlt noch spezielles */
-CREATE TABLE Makler (Name varchar(100) NOT NULL, Adresse varchar(100), Login varchar(100) NOT NULL PRIMARY KEY, Passwort varchar(100) NOT NULL);
-CREATE TABLE Person (Vorname varchar(100), Nachname varchar(100), Adresse varchar(100));
-CREATE TABLE Mietvertrag (Vertragsnummer int, Datum varchar(100), Ort varchar(100)); /* fehlt noch spezielles */
-CREATE TABLE Kaufvertrag (Vertragsnummer int, Datum varchar(100), Ort varchar(100)); /* fehlt noch spezielles */
+/*
+Alter Tabel **
+add foreign key (dno)
+references testuser.department(dnumber)
+;
+*/
+-- Erstellung der Tabellen:
+CREATE TABLE Makler 
+(
+	Name varchar(100),
+	Adresse varchar(100), 
+	Login varchar(100) NOT NULL PRIMARY KEY, 
+	Passwort varchar(100) NOT NULL
+);
+
+CREATE TABLE Wohnung 
+(
+	ID int PRIMARY KEY NOT NULL, 
+	MLogin varchar(100),
+	Ort varchar(100), 
+	PLZ varchar(10), 
+	Strasse varchar(100), 
+	HausNr int, 
+	Flaeche decimal(5,4),
+	Stockwerk int,
+	Mietpreis decimal(10,2),
+	Zimmer int,
+	Balkon Char(1) NOT NULL Default 'N',
+	EBK Char(1) NOT NULL Default 'N',
+
+Constraint BoolCheckBalkon Check (Balkon IN ('Y', 'N')),
+Constraint BoolCheckEBK Check (EBK IN ('Y', 'N'))
+);
+
+CREATE TABLE Haus 
+(
+	ID int PRIMARY KEY NOT NULL, 
+	MLogin varchar(100),
+	Ort varchar(100), 
+	PLZ varchar(10), 
+	Strasse varchar(100), 
+	HausNr int, 
+	Flaeche decimal(5,4),
+	Stockwerke int,
+	Kaufpreis decimal(10,2),
+	Garten Char(1) NOT NULL Default 'N',
+
+Constraint BoolCheck Check (Garten IN ('Y', 'N'))
+);
+
+CREATE TABLE Person 
+(
+	PID int PRIMARY KEY NOT NULL,
+	Vorname varchar(100), 
+	Nachname varchar(100), 
+	Adresse varchar(100))
+
+;
+
+CREATE TABLE Mietvertrag 
+(
+	Vertragsnummer int PRIMARY KEY NOT NULL, 
+	Datum date, 
+	Ort varchar(100),
+	Mietbeginn date,
+	Dauer int,
+	Nebenkosten decimal(10,2),
+	PID int, --PersonenID
+	ImmoID int --ImmobilienID
+);
+
+CREATE TABLE Kaufvertrag 
+(
+	Vertragsnummer int PRIMARY KEY NOT NULL, 
+	Datum date, 
+	Ort varchar(100),
+	AnzahlRaten int,
+	Ratenzins decimal(10,2),
+	PID int, --PersonenID
+	ImmoID int --ImmobilienID
+);
+
+--Einpfelegen der Verbindungen:
+ALTER TABLE "VSISP17"."WOHNUNG"
+	ADD CONSTRAINT "VERWALTETWOHNUNG"
+	FOREIGN KEY ("MLOGIN") REFERENCES "VSISP17"."MAKLER" ("LOGIN")
+;
+
+ALTER TABLE "VSISP17"."HAUS"
+	ADD CONSTRAINT "VERWALTETHAUS"
+	FOREIGN KEY ("MLOGIN") REFERENCES "VSISP17"."MAKLER" ("LOGIN")
+;
+
+ALTER TABLE "VSISP17"."MIETVERTRAG"
+	ADD CONSTRAINT "VERMIETET1"
+	FOREIGN KEY ("PID") REFERENCES "VSISP17"."PERSON" ("PID")
+;
+
+ALTER TABLE "VSISP17"."MIETVERTRAG"
+	ADD CONSTRAINT "VERMIETET2"
+	FOREIGN KEY ("IMMOID") REFERENCES "VSISP17"."WOHNUNG" ("ID")
+;
+
+ALTER TABLE "VSISP17"."KAUFVERTRAG"
+	ADD CONSTRAINT "VERKAUFT1"
+	FOREIGN KEY ("PID") REFERENCES "VSISP17"."PERSON" ("PID")
+;
+
+ALTER TABLE "VSISP17"."KAUFVERTRAG"
+	ADD CONSTRAINT "VERKAUFT2"
+	FOREIGN KEY ("IMMOID") REFERENCES "VSISP17"."HAUS" ("ID")
+;
+
+-- Beispiel Markler (admin)
+INSERT INTO "VSISP17"."MAKLER"
+(NAME, ADRESSE, LOGIN, PASSWORT)
+VALUES
+('Max Mustermann', 'Musterstadt', 'admin', 'admin')
+;
