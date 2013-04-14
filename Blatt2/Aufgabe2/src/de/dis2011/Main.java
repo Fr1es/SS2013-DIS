@@ -50,6 +50,11 @@ public class Main {
 		
 		//Maklerverwaltungsmenü
 		Menu maklerMenu = new Menu("Makler-Verwaltung");
+		
+		if (!maklerMenu.password("admin")) {
+			return;
+		}
+		
 		maklerMenu.addEntry("Neuer Makler", NEW_MAKLER);
 		maklerMenu.addEntry("Zurück zum Hauptmenü", BACK);
 		
