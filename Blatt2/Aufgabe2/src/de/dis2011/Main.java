@@ -14,7 +14,7 @@ public class Main {
 	}
 	
 	/**
-	 * Zeigt das Hauptmenü
+	 * Zeigt das Hauptmenue
 	 */
 	public static void showMainMenu() {
 		//Menüoptionen
@@ -24,7 +24,7 @@ public class Main {
 		final int QUIT = 3;
 		
 		//Erzeuge Menü
-		Menu mainMenu = new Menu("Hauptmenü");
+		Menu mainMenu = new Menu("Hauptmenue");
 		mainMenu.addEntry("Makler-Verwaltung", MENU_MAKLER);
 		mainMenu.addEntry("Immobilien-Verwaltung", IMMOBILIEN);
 		mainMenu.addEntry("Vertragsmodus", VERTRAG);
@@ -54,13 +54,13 @@ public class Main {
 	 * Zeigt die Maklerverwaltung
 	 */
 	public static void showMaklerMenu() {
-		//Menüoptionen
+		//Menueoptionen
 		final int NEW_MAKLER = 0;
 		final int CHANGE = 1;
 		final int DELETE = 2;
 		final int BACK = 3;
 		
-		//Maklerverwaltungsmenü
+		//Maklerverwaltungsmenue
 		Menu maklerMenu = new Menu("Makler-Verwaltung");
 		
 		if (!maklerMenu.password("admin")) { //Passwortabfrage
@@ -81,10 +81,10 @@ public class Main {
 					newMakler(); // ANPASSEN!!!! -------------
 					break;
 				case CHANGE:
-					//MAKLEREINTRAG ÄNDERN!!!!!-------------
+					//MAKLEREINTRAG AENDERN!!!!!-------------
 					break;
 				case DELETE:
-					//MARKLEREINTRAG LÖSCHEN!!!!!!-------------
+					//MARKLEREINTRAG LOESCHEN!!!!!!-------------
 					break;
 				case BACK:
 					return;
@@ -110,21 +110,21 @@ public class Main {
 
 
 public static void showImmobilienMenu() {
-	//Menüoptionen
+	//Menueoptionen
 	final int NEW = 0;
 	final int DELETE = 1;
 	final int CHANGE = 2;
 	final int BACK = 3;
 	
-	//Maklerverwaltungsmenü
+	//Maklerverwaltungsmenue
 	Menu maklerMenu = new Menu("Immobilien-Verwaltung");
 	
-	//HIER MUSS SICH EIN MAKLER EINLOGGEN KÖNNEN!!!! --------------------------------------------------------
+	//HIER MUSS SICH EIN MAKLER EINLOGGEN KOENNEN!!!! --------------------------------------------------------
 	
 	maklerMenu.addEntry("Neue Immobilie", NEW);
-	maklerMenu.addEntry("Löschen einer Immobilie", DELETE);
+	maklerMenu.addEntry("Loeschen einer Immobilie", DELETE);
 	maklerMenu.addEntry("Bearbeiten einer Immobilie", CHANGE);
-	maklerMenu.addEntry("Zurück zum Hauptmenü", BACK);
+	maklerMenu.addEntry("Zurueck zum Hauptmenue", BACK);
 	
 	//Verarbeite Eingabe
 	while(true) {
@@ -135,10 +135,10 @@ public static void showImmobilienMenu() {
 				//IMMOBILIE ANLEGEN -------------
 				break;
 			case DELETE:
-				//IMMOBILIE LÖSCHEN ---------------
+				//IMMOBILIE LOESCHEN ---------------
 				break;
 			case CHANGE:
-				//IMMOBILIE ÄNDERN ---------------
+				//IMMOBILIE AENDERN ---------------
 				break;
 			case BACK:
 				return;
@@ -147,19 +147,19 @@ public static void showImmobilienMenu() {
 }
 
 public static void showVertragMenu() {
-	//Menüoptionen
+	//Menueoptionen
 	final int NEW_PERSON = 0;
 	final int NEW_CONTRACT = 1;
 	final int VIEW_CONTRACTS = 2;
 	final int BACK = 3;
 	
-	//Maklerverwaltungsmenü
+	//Maklerverwaltungsmenue
 	Menu maklerMenu = new Menu("Vertragsmodus");
 	
 	maklerMenu.addEntry("Person eintragen", NEW_PERSON);
-	maklerMenu.addEntry("Vertrag abschließen", NEW_CONTRACT);
-	maklerMenu.addEntry("Übersicht über Vertrage", VIEW_CONTRACTS);
-	maklerMenu.addEntry("Zurück zum Hauptmenü", BACK);
+	maklerMenu.addEntry("Vertrag abschliessen", NEW_CONTRACT);
+	maklerMenu.addEntry("Uebersicht ueber Vertraege", VIEW_CONTRACTS);
+	maklerMenu.addEntry("Zurueck zum Hauptmenue", BACK);
 	
 	//Verarbeite Eingabe
 	while(true) {
@@ -170,10 +170,10 @@ public static void showVertragMenu() {
 				// PERSON ANLEGEN !!!- ----------
 				break;
 			case NEW_CONTRACT:
-				// VERTRÄGE ANLEGEN!!!!!!!------------
+				// VERTRAEGE ANLEGEN!!!!!!!------------
 				break;
 			case VIEW_CONTRACTS:
-				//VERTRÄGE ANZEIGEN!!!!! ------------------
+				//VERTRAEGE ANZEIGEN!!!!! ------------------
 				break;
 			case BACK:
 				return;
