@@ -19,19 +19,10 @@ import de.dis2011.data.DB2ConnectionManager;
  * password varchar(40));
  */
 public class Makler {
-	private int id = -1;
 	private String name;
 	private String address;
-	private String login;
+	private String login = null;
 	private String password;
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	public String getName() {
 		return name;
@@ -74,7 +65,7 @@ public class Makler {
 		try {
 			// Hole Verbindung
 			Connection con = DB2ConnectionManager.getInstance().getConnection();
-
+			
 			// Erzeuge Anfrage
 			String selectSQL = "SELECT * FROM makler WHERE id = ?";
 			PreparedStatement pstmt = con.prepareStatement(selectSQL);
@@ -84,7 +75,6 @@ public class Makler {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				Makler ts = new Makler();
-				ts.setId(id);
 				ts.setName(rs.getString("name"));
 				ts.setAddress(rs.getString("address"));
 				ts.setLogin(rs.getString("login"));
@@ -107,16 +97,17 @@ public class Makler {
 	public void save() {
 		// Hole Verbindung
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
-
+		
+System.out.println("- Verbindung erfolgreich hergestellt -(Makler Save)");
+		
 		try {
 			// FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
-			if (getId() == -1) {
+			if (getLogin() != null) { 				//// TODO!!!! WENN DER LOGIN EXISTIERT MUSS EIN UPDATE GEMACHT WERDEN; SONST EIN INSERT
 				// Achtung, hier wird noch ein Parameter mitgegeben,
 				// damit spC$ter generierte IDs zurC<ckgeliefert werden!
-				String insertSQL = "INSERT INTO makler(name, address, login, password) VALUES (?, ?, ?, ?)";
+				String insertSQL = "INSERT INTO makler(name, adresse, login, passwort) VALUES (?, ?, ?, ?)";
 
-				PreparedStatement pstmt = con.prepareStatement(insertSQL,
-						Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement pstmt = con.prepareStatement(insertSQL);
 
 				// Setze Anfrageparameter und fC<hre Anfrage aus
 				pstmt.setString(1, getName());
@@ -125,25 +116,18 @@ public class Makler {
 				pstmt.setString(4, getPassword());
 				pstmt.executeUpdate();
 
-				// Hole die Id des engefC<gten Datensatzes
-				ResultSet rs = pstmt.getGeneratedKeys();
-				if (rs.next()) {
-					setId(rs.getInt(1));
-				}
-
-				rs.close();
 				pstmt.close();
 			} else {
 				// Falls schon eine ID vorhanden ist, mache ein Update...
-				String updateSQL = "UPDATE makler SET name = ?, address = ?, login = ?, password = ? WHERE id = ?";
+				String updateSQL = "UPDATE makler SET name = ?, adresse = ?, passwort = ? WHERE login = 'BCF'";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Setze Anfrage Parameter
 				pstmt.setString(1, getName());
 				pstmt.setString(2, getAddress());
-				pstmt.setString(3, getLogin());
-				pstmt.setString(4, getPassword());
-				pstmt.setInt(5, getId());
+				pstmt.setString(3, getPassword());
+				pstmt.setString(4, getLogin());
+
 				pstmt.executeUpdate();
 
 				pstmt.close();
