@@ -6,20 +6,20 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
- * Kleine Helferklasse für Menüs
- * Zuvor müssen mit addEntry Menüoptionen hinzugefügt werden. Mit
- * der Methode show() wird das Menü angezeigt und die mit der Option
- * angegebene Konstante zurückgeliefert.
+ * Kleine Helferklasse fuer Menues
+ * Zuvor muessen mit addEntry Menueoptionen hinzugefuegt werden. Mit
+ * der Methode show() wird das Menue angezeigt und die mit der Option
+ * angegebene Konstante zurueckgeliefert.
  * 
  * Beispiel:
- * Menu m = new Menu("Hauptmenü");
+ * Menu m = new Menu("Hauptmenue");
  * m.addEntry("Hart arbeiten", 0);
  * m.addEntry("Ausruhen", 1);
  * m.addEntry("Nach Hause gehen", 2);
  * int wahl = m.show();
  * 
- * Angezeigt wird dann das Menü:
- * Hauptmenü:
+ * Angezeigt wird dann das Menue:
+ * Hauptmenue:
  * [1] Hart arbeiten
  * [2] Ausruhen
  * [3] Nach Hause gehen
@@ -32,7 +32,7 @@ public class Menu {
 	
 	/**
 	 * Konstruktor.
-	 * @param title Titel des Menüs z.B. "Hauptmenü"
+	 * @param title Titel des Menues z.B. "Hauptmenue"
 	 */
 	public Menu(String title) {
 		super();
@@ -40,9 +40,9 @@ public class Menu {
 	}
 	
 	/**
-	 * Fügt einen Menüeintrag zum Menü hinzu
+	 * Fuegt einen Menueeintrag zum Menue hinzu
 	 * @param label Name des Eintrags
-	 * @param returnValue Konstante, die bei Wahl dieses Eintrags zurückgegeben wird
+	 * @param returnValue Konstante, die bei Wahl dieses Eintrags zurueckgegeben wird
 	 */
 	public void addEntry(String label, int returnValue) {
 		this.labels.add(label);
@@ -50,8 +50,8 @@ public class Menu {
 	}
 	
 	/**
-	 * Zeigt das Menü an
-	 * @return Die Konstante des ausgewählten Menüeintrags
+	 * Zeigt das Menue an
+	 * @return Die Konstante des ausgewaehlten Menueeintrags
 	 */
 	public int show()  {
 		int selection = -1;
@@ -75,7 +75,7 @@ public class Menu {
 			}
 			
 			if(selection < 1 || selection > returnValues.size()) {
-				System.err.println("Ungültige Eingabe!");
+				System.err.println("Ungueltige Eingabe!");
 				selection = -1;
 			} 
 		}
