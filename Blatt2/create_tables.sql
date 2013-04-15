@@ -1,9 +1,3 @@
-/*
-Alter Tabel **
-add foreign key (dno)
-references testuser.department(dnumber)
-;
-*/
 -- Erstellung der Tabellen:
 CREATE TABLE Makler 
 (
