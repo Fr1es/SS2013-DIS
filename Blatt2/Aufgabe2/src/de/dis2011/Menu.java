@@ -59,7 +59,7 @@ public class Menu {
 		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
 		
 		while(selection == -1) {
-			System.out.println(title+":");
+			System.out.println("\n"+title+":");
 			
 			for(int i = 0; i < labels.size(); ++i) {
 				System.out.println("["+(i+1)+"] "+labels.get(i));

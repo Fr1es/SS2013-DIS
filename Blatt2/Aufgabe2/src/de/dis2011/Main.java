@@ -94,7 +94,7 @@ public class Main {
 	public static void newMakler() {
 		Makler m = new Makler();
 		
-		System.out.println("Geben Sie die Daten eines Maklers ein, den Sie erstellen wollen." +
+		System.out.println("Geben Sie die Daten eines Maklers ein, die gespeichert werden sollen." +
 				"\nJeder Login wird nur einmal vergeben");
 		m.setName(FormUtil.readString("Name"));
 		m.setAddress(FormUtil.readString("Adresse"));

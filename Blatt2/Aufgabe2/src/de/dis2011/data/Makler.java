@@ -98,15 +98,19 @@ public class Makler {
 		// Hole Verbindung
 		Connection con = DB2ConnectionManager.getInstance().getConnection();
 		
-System.out.println("- Verbindung erfolgreich hergestellt -(Makler Save)");
-		
 		try {
+			Statement stm = con.createStatement();
+			
+			ResultSet rs = stm.executeQuery("Select * FROM makler WHERE login = '"+ getLogin() +"'");
+
+			
 			// FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
-			if (getLogin() != null) { 				//// TODO!!!! WENN DER LOGIN EXISTIERT MUSS EIN UPDATE GEMACHT WERDEN; SONST EIN INSERT
+			if (!rs.next()) {
 				// Achtung, hier wird noch ein Parameter mitgegeben,
 				// damit spC$ter generierte IDs zurC<ckgeliefert werden!
 				String insertSQL = "INSERT INTO makler(name, adresse, login, passwort) VALUES (?, ?, ?, ?)";
-
+				
+				
 				PreparedStatement pstmt = con.prepareStatement(insertSQL);
 
 				// Setze Anfrageparameter und fC<hre Anfrage aus
@@ -119,7 +123,7 @@ System.out.println("- Verbindung erfolgreich hergestellt -(Makler Save)");
 				pstmt.close();
 			} else {
 				// Falls schon eine ID vorhanden ist, mache ein Update...
-				String updateSQL = "UPDATE makler SET name = ?, adresse = ?, passwort = ? WHERE login = 'BCF'";
+				String updateSQL = "UPDATE makler SET name = ?, adresse = ?, passwort = ? WHERE login = ?";
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
 
 				// Setze Anfrage Parameter
