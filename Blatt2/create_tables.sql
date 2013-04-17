@@ -15,9 +15,9 @@ CREATE TABLE Wohnung
 	PLZ varchar(10), 
 	Strasse varchar(100), 
 	HausNr int, 
-	Flaeche decimal(5,4),
+	Flaeche int,
 	Stockwerk int,
-	Mietpreis decimal(10,2),
+	Mietpreis int,
 	Zimmer int,
 	Balkon Char(1) NOT NULL Default 'N',
 	EBK Char(1) NOT NULL Default 'N',
@@ -34,9 +34,9 @@ CREATE TABLE Haus
 	PLZ varchar(10), 
 	Strasse varchar(100), 
 	HausNr int, 
-	Flaeche decimal(5,4),
+	Flaeche int,
 	Stockwerke int,
-	Kaufpreis decimal(10,2),
+	Kaufpreis int,
 	Garten Char(1) NOT NULL Default 'N',
 
 Constraint BoolCheck Check (Garten IN ('Y', 'N'))
@@ -58,7 +58,7 @@ CREATE TABLE Mietvertrag
 	Ort varchar(100),
 	Mietbeginn date,
 	Dauer int,
-	Nebenkosten decimal(10,2),
+	Nebenkosten int,
 	PID int, --PersonenID
 	ImmoID int --ImmobilienID
 );
@@ -69,7 +69,7 @@ CREATE TABLE Kaufvertrag
 	Datum date, 
 	Ort varchar(100),
 	AnzahlRaten int,
-	Ratenzins decimal(10,2),
+	Ratenzins int,
 	PID int, --PersonenID
 	ImmoID int --ImmobilienID
 );
