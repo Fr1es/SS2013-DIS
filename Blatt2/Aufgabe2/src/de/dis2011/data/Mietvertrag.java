@@ -1,12 +1,12 @@
 package de.dis2011.data;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Mietvertrag {
-	
 	
 	
 	

@@ -16,9 +16,9 @@ public class Wohnung {
 	private String plz;
 	private String strasse;
 	private int hausnummer;
-	private double flaeche;
+	private int flaeche;
 	private int stockwerk;
-	private double mietpreis;
+	private int mietpreis;
 	private int zimmer;
 	private char balkon;
 	private char ebk;
@@ -34,7 +34,7 @@ public class Wohnung {
 		hausnummer = FormUtil.readInt("Hausnummer");
 		flaeche = FormUtil.readInt("Flaeche");
 		stockwerk = FormUtil.readInt("Stockwerk");
-		mietpreis = FormUtil.readPreis("Mietpreis");
+		mietpreis = FormUtil.readInt("Mietpreis");
 		zimmer = FormUtil.readInt("Zimmer");
 		balkon = FormUtil.readChar("Balkon");
 		ebk = FormUtil.readChar("EBK");
@@ -48,15 +48,14 @@ public class Wohnung {
 		try {
 			Statement stm = con.createStatement();
 			
-			ResultSet rs = stm.executeQuery("Select * FROM makler WHERE login = '"+ id +"'");
-
+			ResultSet rs = stm.executeQuery("Select * FROM wohnung WHERE id = '"+ id +"'");
 			
 			// FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
 			if (!rs.next()) {
 				// Achtung, hier wird noch ein Parameter mitgegeben,
 				// damit spC$ter generierte IDs zurC<ckgeliefert werden!
 				String insertSQL = "INSERT INTO wohnung(ID,MLOGIN,ORT,PLZ,STRASSE,HAUSNR,FLAECHE,STOCKWERK,MIETPREIS,ZIMMER,BALKON,EBK) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-				System.out.println("Hier");
+				System.out.println("Insert vorbereitet");
 				
 				PreparedStatement pstmt = con.prepareStatement(insertSQL);
 
@@ -67,9 +66,9 @@ public class Wohnung {
 				pstmt.setString(	4	,	plz	);
 				pstmt.setString(	5	,	strasse	);
 				pstmt.setInt(	6	,	hausnummer	);
-				pstmt.setDouble(	7	,	flaeche	);
+				pstmt.setInt(	7	,	flaeche	);
 				pstmt.setInt(	8	,	stockwerk	);
-				pstmt.setDouble(	9	,	mietpreis	);
+				pstmt.setInt(	9	,	mietpreis	);
 				pstmt.setInt(	10	,	zimmer	);
 				pstmt.setString(	11	,	""+balkon	);
 				pstmt.setString(	12	,	""+ebk	);
@@ -79,23 +78,46 @@ public class Wohnung {
 				System.out.println("Die Wohnung mit der ID "+id+" wurde erstellt.");
 			} else {
 				// Falls schon eine ID vorhanden ist, mache ein Update...
-				String updateSQL = "UPDATE makler SET mLogin=?,ort=?,plz=?,strasse=?,hausnummer=?,flaeche=?,stockwerk=?,mietpreis=?,zimmer=?,balkon=?,ebk=? WHERE id = ?";
+
+				String updateSQL = "UPDATE WOHNUNG SET MLOGIN=?,ort=?,plz=?,strasse=?,hausnr=?,flaeche=?,stockwerk=?,mietpreis=?,zimmer=?,balkon=?,ebk=? WHERE id = ?";
+
 				PreparedStatement pstmt = con.prepareStatement(updateSQL);
-
+				
 				// Setze Anfrage Parameter
-				pstmt.setString(	1	, ""+	mLogin	);
-				pstmt.setString(	2	, ""+	ort	);
-				pstmt.setString(	3	, ""+	plz	);
-				pstmt.setString(	4	, ""+	strasse	);
-				pstmt.setString(	5	, ""+	hausnummer	);
-				pstmt.setString(	6	, ""+	flaeche	);
-				pstmt.setString(	7	, ""+	stockwerk	);
-				pstmt.setString(	8	, ""+	mietpreis	);
-				pstmt.setString(	9	, ""+	zimmer	);
-				pstmt.setString(	10	, ""+	balkon	);
-				pstmt.setString(	11	, ""+	ebk	);
-				pstmt.setString(	12	, ""+	id	);
+				pstmt.setString(	1	, mLogin	);
+				pstmt.setString(	2	, ort	);
+				pstmt.setString(	3	, plz	);
+				pstmt.setString(	4	, strasse	);
+				pstmt.setInt(	5	, hausnummer	);
+				pstmt.setInt(	6	, flaeche	);
+				pstmt.setInt(	7	, stockwerk	);
+				pstmt.setInt(	8	, mietpreis	);
+				pstmt.setInt(	9	, zimmer	);
+				pstmt.setString(	10	, ""+balkon	);
+				pstmt.setString(	11	, ""+ebk	);
+				pstmt.setInt(	12	, id	);
 
+/*				
+				String updateSQL = "UPDATE WOHNUNG SET ort=?,plz=?,strasse=?,hausnr=?,flaeche=?,stockwerk=?,mietpreis=?,zimmer=?,balkon=?,ebk=? WHERE id = ?";
+				
+				System.out.println("SQL vorbereitet1");
+				
+				PreparedStatement pstmt = con.prepareStatement(updateSQL);
+				System.out.println("SQL vorbereitet1");
+				
+				// Setze Anfrage Parameter
+				pstmt.setString(	1	, ort	);
+				pstmt.setString(	2	, plz	);
+				pstmt.setString(	3	, strasse	);
+				pstmt.setInt(	4	, hausnummer	);
+				pstmt.setInt(	5	, flaeche	);
+				pstmt.setInt(	6	, stockwerk	);
+				pstmt.setInt(	7	, mietpreis	);
+				pstmt.setInt(	8	, zimmer	);
+				pstmt.setString(	9	, ""+balkon	);
+				pstmt.setString(	10	, ""+ebk	);
+				pstmt.setInt(	11	, id	);
+*/
 
 				pstmt.executeUpdate();
 
