@@ -31,14 +31,14 @@ public class Person {
 		try {
 			Statement stm = con.createStatement();
 			
-			ResultSet rs = stm.executeQuery("Select * FROM person WHERE pid = '"+ pid +"'");
+			ResultSet rs = stm.executeQuery("Select * FROM person WHERE pid = "+ pid +"");
 
 			
 			// FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
 			if (!rs.next()) {
 				// Achtung, hier wird noch ein Parameter mitgegeben,
 				// damit spC$ter generierte IDs zurC<ckgeliefert werden!
-				String insertSQL = "INSERT INTO wohnung(PID,VORNAME,NACHNAME,ADRESSE) VALUES (?,?,?,?)";
+				String insertSQL = "INSERT INTO person(PID,VORNAME,NACHNAME,ADRESSE) VALUES (?,?,?,?)";
 				
 				PreparedStatement pstmt = con.prepareStatement(insertSQL);
 

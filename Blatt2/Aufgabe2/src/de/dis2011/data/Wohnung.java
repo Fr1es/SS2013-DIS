@@ -103,8 +103,27 @@ public class Wohnung {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}		
+	}
+	
+	/**
+	 * Löscht eine Wohnung mit dem Key
+	 * @param id
+	 */
+	public void delete(String id)
+	{
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
 		
-		
+		try {			
+			String SQLString = "DELETE FROM wohnung WHERE id = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(SQLString);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			System.out.println("Die Wohnung mit der ID "+id+" wurde gelöscht");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 }

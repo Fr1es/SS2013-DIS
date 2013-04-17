@@ -1,6 +1,7 @@
 package de.dis2011;
 
 import de.dis2011.data.Makler;
+import de.dis2011.data.Person;
 import de.dis2011.data.Wohnung;
 
 /**
@@ -126,19 +127,16 @@ public static void showImmobilienMenu() {
 	final int NEWFLAT = 1;
 	final int DELETEHOUSE = 2;
 	final int DELETEFLAT = 3;
-	final int CHANGE = 4;
-	final int BACK = 5;
+	final int BACK = 4;
 	
 	//Maklerverwaltungsmenü
 	Menu maklerMenu = new Menu("Immobilien-Verwaltung");
 	
-	//HIER MUSS SICH EIN MAKLER EINLOGGEN KÖNNEN!!!! --------------------------------------------------------
 	
-	maklerMenu.addEntry("Neues Haus", NEWHOUSE);
-	maklerMenu.addEntry("Neue Wohnung", NEWFLAT);
+	maklerMenu.addEntry("Neues Haus / Haus aendern", NEWHOUSE);
+	maklerMenu.addEntry("Neue Wohnung / Wohnung aendern", NEWFLAT);
 	maklerMenu.addEntry("Löschen eines Hauses", DELETEHOUSE);
 	maklerMenu.addEntry("Löschen einer Wohnung", DELETEFLAT);
-	maklerMenu.addEntry("Bearbeiten einer Immobilie", CHANGE);
 	maklerMenu.addEntry("Zurück zum Hauptmenü", BACK);
 	
 	//Verarbeite Eingabe
@@ -158,16 +156,20 @@ public static void showImmobilienMenu() {
 				//HAUS LÖSCHEN ---------------
 				break;
 			case DELETEFLAT:
-				//WOHNUNG LÖSCHEN ---------------
-				break;
-			case CHANGE:
-				//IMMOBILIE ÄNDERN ---------------
+				deleteWohnung(); //ok
 				break;
 			case BACK:
 				return;
 		}
 	}
 }
+
+	public static void deleteWohnung() {
+		Wohnung m = new Wohnung();
+		
+		System.out.println("Geben Sie bitte die ID der Wohnung ein, die gelöscht werden soll.");
+		m.delete(""+FormUtil.readInt("ID"));
+	}
 
 public static void showVertragMenu() {
 	//Menüoptionen
@@ -190,7 +192,9 @@ public static void showVertragMenu() {
 		
 		switch(response) {
 			case NEW_PERSON:
-				// PERSON ANLEGEN !!!- ----------
+				Person p = new Person();	//ok
+				p.zuweisen();
+				p.save();
 				break;
 			case NEW_CONTRACT:
 				// VERTRÄGE ANLEGEN!!!!!!!------------
