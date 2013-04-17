@@ -1,6 +1,7 @@
 package de.dis2011;
 
 import de.dis2011.data.Makler;
+import de.dis2011.data.Wohnung;
 
 /**
  * Hauptklasse
@@ -76,10 +77,10 @@ public class Main {
 			
 			switch(response) {
 				case NEW_MAKLER:
-					newMakler(); // ANPASSEN!!!! -------------
+					newMakler(); // ok
 					break;
 				case DELETE:
-					//MARKLEREINTRAG LÖSCHEN!!!!!!-------------
+					deleteMakler(); // ok
 					break;
 				case BACK:
 					return;
@@ -94,19 +95,32 @@ public class Main {
 	public static void newMakler() {
 		Makler m = new Makler();
 		
-		System.out.println("Geben Sie die Daten eines Maklers ein, die gespeichert werden sollen." +
+		System.out.println("Geben Sie bitte die Daten eines Maklers ein, die gespeichert werden sollen." +
 				"\nJeder Login wird nur einmal vergeben");
 		m.setName(FormUtil.readString("Name"));
 		m.setAddress(FormUtil.readString("Adresse"));
 		m.setLogin(FormUtil.readString("Login"));
 		m.setPassword(FormUtil.readString("Passwort"));
 		m.save();
+	}
+	
+	public static void deleteMakler() {
+		Makler m = new Makler();
 		
-		System.out.println("Makler mit dem Login "+m.getLogin()+" wurde gespeichert.");
+		System.out.println("Geben Sie bitte den Login des Maklers ein, der gelöscht werden soll.");
+		m.delete(FormUtil.readString("Login"));
 	}
 
 
 public static void showImmobilienMenu() {
+	//Maklerlogin zuerst!
+	Makler m = new Makler();
+	if (!m.loginMakler()) {
+		System.out.println("Ungueltiger Loginversuch.");
+		return;
+	}
+	
+	
 	//Menüoptionen
 	final int NEWHOUSE = 0;
 	final int NEWFLAT = 1;
@@ -136,7 +150,9 @@ public static void showImmobilienMenu() {
 				//HAUS ANLEGEN -------------
 				break;
 			case NEWFLAT:
-				//WOHNUNG ANLEGEN -------------
+				Wohnung w = new Wohnung();	//WOHNUNG ANLEGEN -------------
+				w.zuweisen();
+				w.save();
 				break;
 			case DELETEHOUSE:
 				//HAUS LÖSCHEN ---------------

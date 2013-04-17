@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import de.dis2011.FormUtil;
 import de.dis2011.data.DB2ConnectionManager;
 
 /**
@@ -121,6 +122,7 @@ public class Makler {
 				pstmt.executeUpdate();
 
 				pstmt.close();
+				System.out.println("Der Markler mit dem Login "+getLogin()+" wurde erstellt.");
 			} else {
 				// Falls schon eine ID vorhanden ist, mache ein Update...
 				String updateSQL = "UPDATE makler SET name = ?, adresse = ?, passwort = ? WHERE login = ?";
@@ -135,9 +137,70 @@ public class Makler {
 				pstmt.executeUpdate();
 
 				pstmt.close();
+				System.out.println("Die Eintraege des Marklers mit dem Login "+getLogin()+" wurden aktualisiert.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Löscht einen Makler mit dem Login "id"
+	 * @param id
+	 */
+	public void delete(String id)
+	{
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+		
+		try {			
+			String SQLString = "DELETE FROM makler WHERE login = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(SQLString);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+			
+			System.out.println("Der Makler mit dem Login "+id+" wurde gelöscht");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	/**
+	 * Anmeldung eines Maklers mit Login und Passwort
+	 * @return true wenn Anmeldung erfolgreich war, sonst false
+	 */
+	public boolean loginMakler()
+	{
+		String loginAnmelder;
+		String passwortAnmelder;
+		
+		System.out.println("- Maklerlogin -");
+		System.out.println("Bitte geben Sie Ihr Login und Passwort an.");
+		
+		loginAnmelder = FormUtil.readString("Login");
+		passwortAnmelder = FormUtil.readString("Passwort");
+		
+		//Abfrage des Logins/PW auf der DB:
+		Connection con = DB2ConnectionManager.getInstance().getConnection();
+		
+		try {
+			Statement stm = con.createStatement();
+			
+			ResultSet rs = stm.executeQuery("Select passwort FROM makler WHERE login = '"+ loginAnmelder +"'");
+			
+			while(rs.next()) {
+				String DBpw = rs.getString("passwort");
+				
+				if(DBpw.equals(passwortAnmelder)) {
+					return true;
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 }
