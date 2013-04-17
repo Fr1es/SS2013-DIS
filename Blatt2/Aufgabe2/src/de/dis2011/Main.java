@@ -1,6 +1,8 @@
 package de.dis2011;
 
+import de.dis2011.data.Kaufvertrag;
 import de.dis2011.data.Makler;
+import de.dis2011.data.Mietvertrag;
 import de.dis2011.data.Person;
 import de.dis2011.data.Wohnung;
 
@@ -200,7 +202,10 @@ public static void showVertragMenu() {
 				// VERTRÄGE ANLEGEN!!!!!!!------------
 				break;
 			case VIEW_CONTRACTS:
-				//VERTRÄGE ANZEIGEN!!!!! ------------------
+				Kaufvertrag k = new Kaufvertrag();
+				Mietvertrag m = new Mietvertrag();
+				k.ausgeben();
+				m.ausgeben();
 				break;
 			case BACK:
 				return;
