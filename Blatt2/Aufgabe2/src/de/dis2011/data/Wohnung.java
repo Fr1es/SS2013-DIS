@@ -32,12 +32,13 @@ public class Wohnung {
 		plz = FormUtil.readString("PLZ");
 		strasse = FormUtil.readString("Strasse");
 		hausnummer = FormUtil.readInt("Hausnummer");
-		flaeche = FormUtil.readDouble("Flaeche");
+		flaeche = FormUtil.readInt("Flaeche");
 		stockwerk = FormUtil.readInt("Stockwerk");
 		mietpreis = FormUtil.readPreis("Mietpreis");
 		zimmer = FormUtil.readInt("Zimmer");
 		balkon = FormUtil.readChar("Balkon");
 		ebk = FormUtil.readChar("EBK");
+
 	}
 	
 	public void save() {
