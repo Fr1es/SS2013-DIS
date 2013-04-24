@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="de.dis2013.data.Mietvertrag" table="Mietvertrag">
-		<id name="vertragsnummer" column="Vertragsnummer">
+		<id name="id" column="id">
 			<generator class="native" />
 		</id>
 		<property name="datum" type="integer" column="Datum" />

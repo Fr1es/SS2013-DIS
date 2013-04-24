@@ -430,11 +430,11 @@ public class ImmoService {
 		h.setOrt("Hamburg");
 		h.setPlz(22527);
 		h.setStrasse("Vogt-Kölln-Straße");
-		h.setHausnummer("2a");
+		h.setHausnr(2);
 		h.setFlaeche(384);
 		h.setStockwerke(5);
 		h.setKaufpreis(10000000);
-		h.setGarten(true);
+		h.setGarten('Y');
 		h.setVerwalter(m);
 		
 		session.save(h);

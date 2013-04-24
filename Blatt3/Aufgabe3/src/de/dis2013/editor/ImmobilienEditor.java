@@ -89,11 +89,11 @@ public class ImmobilienEditor {
 		h.setOrt(FormUtil.readString("Ort"));
 		h.setPlz(FormUtil.readInt("PLZ"));
 		h.setStrasse(FormUtil.readString("Straße"));
-		h.setHausnummer(FormUtil.readString("Hausnummer"));
+		h.setHausnr(FormUtil.readInt("Hausnummer"));
 		h.setFlaeche(FormUtil.readInt("Fläche"));
 		h.setStockwerke(FormUtil.readInt("Stockwerke"));
 		h.setKaufpreis(FormUtil.readInt("Kaufpreis"));
-		h.setGarten(FormUtil.readBoolean("Garten"));
+		h.setGarten(FormUtil.readChar("Garten"));
 		h.setVerwalter(this.verwalter);
 		
 		service.addHaus(h);
@@ -116,17 +116,17 @@ public class ImmobilienEditor {
 			//Gewähltes Haus laden
 			Haus h = service.getHausById(id);
 			
-			System.out.println("Haus "+h.getStrasse()+" "+h.getHausnummer()+", "+h.getPlz()+" "+h.getOrt()+" wird bearbeitet. Leere Felder bzw. Eingabe von 0 lässt Feld unverändert.");
+			System.out.println("Haus "+h.getStrasse()+" "+h.getHausnr()+", "+h.getPlz()+" "+h.getOrt()+" wird bearbeitet. Leere Felder bzw. Eingabe von 0 lässt Feld unverändert.");
 			
 			//Neue Daten abfragen
 			String newOrt = FormUtil.readString("Ort ("+h.getOrt()+")");
 			int newPlz = FormUtil.readInt("PLZ ("+h.getPlz()+")");
 			String newStrasse = FormUtil.readString("Straße ("+h.getStrasse()+")");
-			String newHausNummer = FormUtil.readString("Hausnummer ("+h.getHausnummer()+")");
+			int newHausNummer = FormUtil.readInt("Hausnummer ("+h.getHausnr()+")");
 			int newFlaeche = FormUtil.readInt("Fläche ("+h.getFlaeche()+")");
 			int newStockwerke = FormUtil.readInt("Stockwerke ("+h.getStockwerke()+")");
 			int newKaufpreis = FormUtil.readInt("Kaufpreis ("+h.getKaufpreis()+")");
-			boolean newGarten = FormUtil.readBoolean("Garten ("+(h.isGarten() ? "j" : "n")+")");
+			char newGarten = FormUtil.readChar("Garten ("+(h.isGarten() )+")");
 			
 			//Neue Daten setzen
 			if(!newOrt.equals(""))
@@ -135,8 +135,8 @@ public class ImmobilienEditor {
 			if(!newStrasse.equals(""))
 				h.setStrasse(newStrasse);
 			
-			if(!newHausNummer.equals(""))
-				h.setHausnummer(newHausNummer);
+			if(newHausNummer != 0)
+				h.setHausnr(newHausNummer);
 			
 			if(newPlz != 0)
 				h.setPlz(newPlz);

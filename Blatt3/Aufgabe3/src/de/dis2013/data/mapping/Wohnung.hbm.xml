@@ -4,12 +4,12 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="de.dis2013.data.Wohnung" table="Wohnung">
-		<id name="id" column="ID">
+		<id name="id" column="id">
 			<generator class="native" />
 		</id>
-		<!-- MLOGIN fehlt noch als Fremdschluessel -->
+		
 		<property name="ort" type="string" column="Ort" />
-		<property name="plz" type="string" column="PLZ" />
+		<property name="plz" type="integer" column="PLZ" />
 		<property name="strasse" type="string" column="Strasse" />
 		<property name="hausnr" type="integer" column="HausNr" />
 		<property name="flaeche" type="integer" column="Flaeche" />
@@ -18,6 +18,8 @@
 		<property name="zimmer" type="integer" column="Zimmer" />
 		<property name="balkon" type="character" column="Balkon" />
 		<property name="ebk" type="character" column="EBK" />
+		
+		<many-to-one name="verwalter" class="de.dis2013.data.Makler" column="verwalter" not-null="true" />
 		
 	</class>
 </hibernate-mapping>

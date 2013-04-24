@@ -7,15 +7,17 @@
 		<id name="id" column="ID">
 			<generator class="native" />
 		</id>
-		<!-- MLOGIN fehlt noch als Fremdschluessel -->
+		
 		<property name="ort" type="string" column="Ort" />
-		<property name="plz" type="string" column="PLZ" />
+		<property name="plz" type="integer" column="PLZ" />
 		<property name="strasse" type="string" column="Strasse" />
 		<property name="hausnr" type="integer" column="HausNr" />
 		<property name="flaeche" type="integer" column="Flaeche" />
 		<property name="stockwerke" type="integer" column="Stockwerk" />
 		<property name="kaufpreis" type="integer" column="Kaufpreis" />
 		<property name="garten" type="character" column="Garten" />
+		
+		<many-to-one name="verwalter" class="de.dis2013.data.Makler" column="verwalter" not-null="true" />
 		
 	</class>
 </hibernate-mapping>
