@@ -17,7 +17,7 @@ public class HouseSelectionMenu extends Menu {
 		Iterator<Haus> it = haeuser.iterator();
 		while(it.hasNext()) {
 			Haus h = it.next();
-			addEntry(h.getStrasse()+" "+h.getHausnr()+", "+h.getPlz()+" "+h.getOrt(), h.getId());
+			addEntry(h.getStrasse()+" "+h.getHausnummer()+", "+h.getPlz()+" "+h.getOrt(), h.getId());
 		}
 		addEntry("Zurück", BACK);
 	}

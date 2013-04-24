@@ -5,61 +5,13 @@ import de.dis2013.util.Helper;
 /**
  * Haus-Bean
  */
-public class Haus{
-	private int id;
-	private String ort;
-	private int plz;
-	private String strasse;
-	private int hausnr;
-	private int flaeche;
+public class Haus extends Immobilie {
 	private int stockwerke;
 	private int kaufpreis;
-	private char garten;
-	private Makler verwalter;
+	private boolean garten;
 	
 	public Haus() {
-	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public String getOrt() {
-		return ort;
-	}
-	public void setOrt(String ort) {
-		this.ort = ort;
-	}
-	
-	public int getPlz() {
-		return plz;
-	}
-	public void setPlz(int plz) {
-		this.plz = plz;
-	}
-	
-	public String getStrasse() {
-		return strasse;
-	}
-	public void setStrasse(String strasse) {
-		this.strasse = strasse;
-	}
-
-	public int getHausnr() {
-		return hausnr;
-	}
-	public void setHausnr(int hausnr) {
-		this.hausnr = hausnr;
-	}
-
-	public int getFlaeche() {
-		return flaeche;
-	}
-	public void setFlaeche(int flaeche) {
-		this.flaeche = flaeche;
+		super();
 	}
 	
 	public int getStockwerke() {
@@ -74,18 +26,11 @@ public class Haus{
 	public void setKaufpreis(int kaufpreis) {
 		this.kaufpreis = kaufpreis;
 	}
-	public char isGarten() {
+	public boolean isGarten() {
 		return garten;
 	}
-	public void setGarten(char garten) {
+	public void setGarten(boolean garten) {
 		this.garten = garten;
-	}
-	
-	public Makler getVerwalter() {
-		return verwalter;
-	}
-	public void setVerwalter(Makler verwalter) {
-		this.verwalter = verwalter;
 	}
 	
 	public int hashCode() {
@@ -94,6 +39,7 @@ public class Haus{
 		
 		result = prime * result + getStockwerke();
 		result = prime * result + getKaufpreis();
+		result = prime * result + ((isGarten()) ? 1 : 0);
 		
 		return result;
 	}
@@ -112,7 +58,7 @@ public class Haus{
 				other.getFlaeche() != getFlaeche() ||
 				!Helper.compareObjects(this.getOrt(), other.getOrt()) ||
 				!Helper.compareObjects(this.getStrasse(), other.getStrasse()) ||
-				!Helper.compareObjects(this.getHausnr(), other.getHausnr()) ||
+				!Helper.compareObjects(this.getHausnummer(), other.getHausnummer()) ||
 				getStockwerke() != other.getStockwerke() ||
 				getKaufpreis() != other.getKaufpreis() ||
 				isGarten() != other.isGarten())

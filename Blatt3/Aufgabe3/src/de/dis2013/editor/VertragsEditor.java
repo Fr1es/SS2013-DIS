@@ -96,7 +96,7 @@ public class VertragsEditor {
 			System.out.println("Kaufvertrag "+kv.getVertragsnummer()+"\n"+
 							"\tGeschlossen am "+Helper.dateToString(kv.getDatum())+" in "+kv.getOrt()+"\n"+
 							"\tMieter:        "+kv.getVertragspartner().getVorname()+" "+kv.getVertragspartner().getNachname()+"\n"+
-							"\tHaus:          "+kv.getHaus().getStrasse()+" "+kv.getHaus().getHausnr()+", "+kv.getHaus().getPlz()+" "+kv.getHaus().getOrt()+"\n"+
+							"\tHaus:          "+kv.getHaus().getStrasse()+" "+kv.getHaus().getHausnummer()+", "+kv.getHaus().getPlz()+" "+kv.getHaus().getOrt()+"\n"+
 							"\tKaufpreis:     "+kv.getHaus().getKaufpreis()+" Euro\n"+
 							"\tRaten:         "+kv.getAnzahlRaten()+", Ratenzins: "+kv.getRatenzins()+"%\n");
 		}

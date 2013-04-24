@@ -87,30 +87,6 @@ public class FormUtil {
 	}
 	
 	/**
-	 * Liest nur einen Char ein, der entweder Y oder N ist.
-	 */
-	public static char readChar(String label) {
-		char ret = 'A';
-		boolean finished = false;
-
-		while(!finished) {
-			String line = readString(label+" (Y/N)").toUpperCase();
-			
-			if (line.length() == 1 && 
-					( line.equals("N") || line.equals("Y") ) ) {
-				ret = line.charAt(0);
-				finished = true;
-			} 
-			else {
-				System.err.println("Ungültige Eingabe: Bitte geben Sie nur 'N' oder 'Y' an!");
-			}
-
-		}
-		
-		return ret;
-	}
-	
-	/**
 	 * Liest ein Datum vom standard input im Format dd.MM.yyyy ein
 	 * @param label Zeile, die vor der Eingabe gezeigt wird
 	 * @return eingelesenes Datum
