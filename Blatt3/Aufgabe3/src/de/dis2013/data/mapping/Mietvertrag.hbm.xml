@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2013.data.Mietvertrag" table="Mietvertrag">
+		<id name="vertragsnummer" column="Vertragsnummer">
+			<generator class="native" />
+		</id>
+		<property name="datum" type="integer" column="Datum" />
+		<property name="ort" type="string" column="Ort" />
+		<property name="mietbeginn" type="integer" column="Mietbeginn" />
+		<property name="dauer" type="integer" column="Dauer" />
+		<property name="nebenkosten" type="integer" column="Nebenkosten" />
+		
+		<!-- PID fehlt noch als Fremdschluessel -->
+		<!-- HausID fehlt noch als Fremdschluessel -->
+		<!-- WohnungID fehlt noch als Fremdschluessel -->
+		
+	</class>
+</hibernate-mapping>

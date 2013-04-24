@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2013.data.Wohnung" table="Wohnung">
+		<id name="id" column="ID">
+			<generator class="native" />
+		</id>
+		<!-- MLOGIN fehlt noch als Fremdschluessel -->
+		<property name="ort" type="string" column="Ort" />
+		<property name="plz" type="string" column="PLZ" />
+		<property name="strasse" type="string" column="Strasse" />
+		<property name="hausnr" type="integer" column="HausNr" />
+		<property name="flaeche" type="integer" column="Flaeche" />
+		<property name="stockwerk" type="integer" column="Stockwerk" />
+		<property name="mietpreis" type="integer" column="Mietpreis" />
+		<property name="zimmer" type="integer" column="Zimmer" />
+		<property name="balkon" type="character" column="Balkon" />
+		<property name="ebk" type="character" column="EBK" />
+		
+	</class>
+</hibernate-mapping>
