@@ -10,7 +10,7 @@ CREATE TABLE Makler
 CREATE TABLE Wohnung 
 (
 	ID int PRIMARY KEY NOT NULL, 
-	MLogin varchar(100),
+	MLogin varchar(100), --Fremdschlüssel
 	Ort varchar(100), 
 	PLZ varchar(10), 
 	Strasse varchar(100), 
@@ -29,7 +29,7 @@ Constraint BoolCheckEBK Check (EBK IN ('Y', 'N'))
 CREATE TABLE Haus 
 (
 	ID int PRIMARY KEY NOT NULL, 
-	MLogin varchar(100),
+	MLogin varchar(100), --Fremdschlüssel
 	Ort varchar(100), 
 	PLZ varchar(10), 
 	Strasse varchar(100), 
@@ -54,24 +54,26 @@ CREATE TABLE Person
 CREATE TABLE Mietvertrag 
 (
 	Vertragsnummer int PRIMARY KEY NOT NULL, 
-	Datum date, 
+	Datum int, 
 	Ort varchar(100),
-	Mietbeginn date,
+	Mietbeginn int,
 	Dauer int,
 	Nebenkosten int,
 	PID int, --PersonenID
-	ImmoID int --ImmobilienID
+	HausID int, --HausID
+	WohnungID int --WohnungID
 );
 
 CREATE TABLE Kaufvertrag 
 (
 	Vertragsnummer int PRIMARY KEY NOT NULL, 
-	Datum date, 
+	Datum int, 
 	Ort varchar(100),
 	AnzahlRaten int,
 	Ratenzins int,
 	PID int, --PersonenID
-	ImmoID int --ImmobilienID
+	HausID int, --HausID
+	WohnungID int --WohnungID
 );
 
 --Einpfelegen der Verbindungen:
