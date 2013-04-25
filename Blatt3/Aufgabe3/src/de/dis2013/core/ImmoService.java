@@ -491,6 +491,9 @@ public class ImmoService {
 		session.getTransaction().commit();
 		session.close();
 		
+		session = sessionFactory.openSession();///////////////2
+		session.beginTransaction(); ///////////////2
+		
 		Kaufvertrag kv = new Kaufvertrag();
 		kv.setHaus(h);
 		kv.setVertragspartner(p1);
@@ -500,6 +503,10 @@ public class ImmoService {
 		kv.setAnzahlRaten(5);
 		kv.setRatenzins(4);
 		this.addKaufvertrag(kv);
+		
+		//session.save(kv); //////2
+		session.getTransaction().commit();//////2
+		session.close();//////2
 		
 		Mietvertrag mv = new Mietvertrag();
 		mv.setWohnung(w);

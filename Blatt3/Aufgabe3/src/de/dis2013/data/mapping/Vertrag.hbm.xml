@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="de.dis2013.data.Vertrag" abstract="true">
+		<id name="vertragsnummer" column="vertragsnummer">
+			<generator class="increment" />
+		</id>
+		<property name="datum" type="date" column="datum" />
+		<property name="ort" type="string" column="ort" />
+		
+		<union-subclass name="de.dis2013.data.Kaufvertrag" table="kaufvertraege">
+			<property name="anzahlRaten" type="integer" column="anzahlRaten" />
+			<property name="ratenzins" type="integer" column="ratenzins" />
+
+		</union-subclass>
+		
+	</class>
+</hibernate-mapping>

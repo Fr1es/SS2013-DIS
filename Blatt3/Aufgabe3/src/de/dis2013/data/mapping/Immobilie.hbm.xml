@@ -14,6 +14,7 @@
 		<property name="flaeche" type="integer" column="flaeche" />
 		<many-to-one name="verwalter" class="de.dis2013.data.Makler" column="verwalter" not-null="true" />
 		
+		
 		<union-subclass name="de.dis2013.data.Haus" table="haeuser">
 			<property name="stockwerke" type="integer" column="stockwerke" />
 			<property name="kaufpreis" type="integer" column="kaufpreis" />
