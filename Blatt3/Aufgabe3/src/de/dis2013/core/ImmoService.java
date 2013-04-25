@@ -456,6 +456,8 @@ public class ImmoService {
 		}
 		session.close();
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction(); ///////////////-------
 		Wohnung w = new Wohnung();
 		w.setOrt("Hamburg");
 		w.setPlz(22527);
@@ -468,11 +470,14 @@ public class ImmoService {
 		w.setBalkon(false);
 		w.setVerwalter(m);
 		this.addWohnung(w);
+
+		session.save(w); //////--------
+
 		
 		w = new Wohnung();
 		w.setOrt("Berlin");
 		w.setPlz(22527);
-		w.setStrasse("Vogt-Kölln-Straße");
+		w.setStrasse("Alexanderplatz");
 		w.setHausnummer("3");
 		w.setFlaeche(120);
 		w.setStockwerk(4);
@@ -481,6 +486,10 @@ public class ImmoService {
 		w.setBalkon(false);
 		w.setVerwalter(m);
 		this.addWohnung(w);
+		
+		session.save(w); //////--------
+		session.getTransaction().commit();
+		session.close();
 		
 		Kaufvertrag kv = new Kaufvertrag();
 		kv.setHaus(h);

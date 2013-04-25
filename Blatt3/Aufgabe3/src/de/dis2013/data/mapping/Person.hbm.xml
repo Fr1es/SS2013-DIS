@@ -10,5 +10,6 @@
 		<property name="vorname" type="string" column="vorname" />
 		<property name="nachname" type="string" column="nachname" />
 		<property name="adresse" type="string" column="adresse" />
+
 	</class>
 </hibernate-mapping>
