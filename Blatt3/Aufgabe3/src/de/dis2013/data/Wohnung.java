@@ -1,5 +1,7 @@
 package de.dis2013.data;
 
+import java.util.Set;
+
 import de.dis2013.util.Helper;
 
 
@@ -12,6 +14,7 @@ public class Wohnung extends Immobilie {
 	private int zimmer;
 	private boolean balkon;
 	private boolean ebk;
+	private Set<Mietvertrag> mietvertraege;
 	
 	public Wohnung() {
 		super();
@@ -46,6 +49,13 @@ public class Wohnung extends Immobilie {
 	}
 	public void setEbk(boolean ebk) {
 		this.ebk = ebk;
+	}
+	
+	public Set<Mietvertrag> getMietvertraege() {
+		return mietvertraege;
+	}
+	public void setMietvertraege(Set<Mietvertrag> mietvertraege) {
+		this.mietvertraege = mietvertraege;
 	}
 	
 	public int hashCode() {

@@ -1,5 +1,7 @@
 package de.dis2013.data;
 
+import java.util.Set;
+
 import de.dis2013.util.Helper;
 
 /**
@@ -9,6 +11,7 @@ public class Haus extends Immobilie {
 	private int stockwerke;
 	private int kaufpreis;
 	private boolean garten;
+	private Set<Kaufvertrag> kaufvertraege;
 	
 	public Haus() {
 		super();
@@ -32,6 +35,14 @@ public class Haus extends Immobilie {
 	public void setGarten(boolean garten) {
 		this.garten = garten;
 	}
+	
+	public Set<Kaufvertrag> getKaufvertraege() {
+		return kaufvertraege;
+	}
+	public void setKaufvertraege(Set<Kaufvertrag> kaufvertraege) {
+		this.kaufvertraege = kaufvertraege;
+	}
+	
 	
 	public int hashCode() {
 		final int prime = 31;
