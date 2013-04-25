@@ -18,6 +18,8 @@ public class Main {
 	 * Startet die Anwendung
 	 */
 	public static void main(String[] args) {
+		System.out.println("--SYSTEMSTART--");
+		
 		service = new ImmoService();
 		showMainMenu();
 	}
