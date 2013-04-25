@@ -1,5 +1,7 @@
 package de.dis2013.data;
 
+import java.util.Set;
+
 import de.dis2013.util.Helper;
 
 /**
@@ -10,7 +12,8 @@ public class Person {
 	private String vorname;
 	private String nachname;
 	private String adresse;
-
+	private Set<Vertrag> kaufvertraege;
+	private Set<Vertrag> mietvertraege;
 
 	
 	public Person() {
@@ -40,6 +43,23 @@ public class Person {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
+	
+	public Set<Vertrag> getKaufvertraege() {
+		return kaufvertraege;
+	}
+
+	public void setKaufvertraege(Set<Vertrag> kaufvertraege) {
+		this.kaufvertraege = kaufvertraege;
+	}
+	
+	public Set<Vertrag> getMietvertraege() {
+		return mietvertraege;
+	}
+
+	public void setMietvertraege(Set<Vertrag> mietvertraege) {
+		this.mietvertraege = mietvertraege;
+	}
+	
 	
 	public int hashCode() {
 		final int prime = 31;

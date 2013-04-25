@@ -10,6 +10,16 @@
 		<property name="vorname" type="string" column="vorname" />
 		<property name="nachname" type="string" column="nachname" />
 		<property name="adresse" type="string" column="adresse" />
-
+		
+		<set name="kaufvertraege" inverse="true">
+			<key column="vertragspartner" />
+			<one-to-many class="de.dis2013.data.Kaufvertrag" />
+		</set>
+		
+		<set name="mietvertraege" inverse="true">
+			<key column="vertragspartner" />
+			<one-to-many class="de.dis2013.data.Mietvertrag" />
+		</set>
+		
 	</class>
 </hibernate-mapping>
