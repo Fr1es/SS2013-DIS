@@ -471,7 +471,7 @@ public class ImmoService {
 		w.setVerwalter(m);
 		this.addWohnung(w);
 
-		session.save(w); //////--------
+		session.save(w); //////--------angepasst
 
 		
 		w = new Wohnung();
