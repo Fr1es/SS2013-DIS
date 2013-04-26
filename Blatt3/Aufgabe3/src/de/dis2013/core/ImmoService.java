@@ -35,6 +35,7 @@ public class ImmoService {
 	
 	//Hibernate Session
 	private SessionFactory sessionFactory;
+	private Session session;
 	
 	public ImmoService() {
 		sessionFactory = new Configuration().configure().buildSessionFactory();
@@ -106,6 +107,13 @@ public class ImmoService {
 	 * @param m Der Makler
 	 */
 	public void addMakler(Makler m) {
+		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(m);
+		session.getTransaction().commit();
+		
+		//das alte Set:
 		makler.add(m);
 	}
 	
@@ -114,6 +122,13 @@ public class ImmoService {
 	 * @param m Der Makler
 	 */
 	public void deleteMakler(Makler m) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(m);
+		session.getTransaction().commit();
+		
+		
+		//das alte Set:
 		makler.remove(m);
 	}
 	
@@ -122,6 +137,14 @@ public class ImmoService {
 	 * @param p Die Person
 	 */
 	public void addPerson(Person p) {
+		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(p);
+		session.getTransaction().commit();
+		
+		
+		//das alte set:
 		personen.add(p);
 	}
 	
@@ -137,6 +160,12 @@ public class ImmoService {
 	 * @param p Die Person
 	 */
 	public void deletePerson(Person p) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(p);
+		session.getTransaction().commit();
+		
+		//das alte Set:
 		personen.remove(p);
 	}
 	
@@ -145,6 +174,14 @@ public class ImmoService {
 	 * @param h Das Haus
 	 */
 	public void addHaus(Haus h) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(h);
+		session.getTransaction().commit();
+
+		
+		
+		//das alte Set:
 		haeuser.add(h);
 	}
 	
@@ -190,6 +227,13 @@ public class ImmoService {
 	 * @param p Das Haus
 	 */
 	public void deleteHouse(Haus h) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(h);
+		session.getTransaction().commit();
+		
+		
+		//das alte Set:
 		haeuser.remove(h);
 	}
 	
@@ -198,6 +242,13 @@ public class ImmoService {
 	 * @param w die Wohnung
 	 */
 	public void addWohnung(Wohnung w) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(w);
+		session.getTransaction().commit();
+		
+		
+		//das alte Set:
 		wohnungen.add(w);
 	}
 	
@@ -243,6 +294,13 @@ public class ImmoService {
 	 * @param p Die Wohnung
 	 */
 	public void deleteWohnung(Wohnung w) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(w);
+		session.getTransaction().commit();
+		
+		
+		//das alte set:
 		wohnungen.remove(w);
 	}
 	
@@ -252,6 +310,12 @@ public class ImmoService {
 	 * @param w Der Mietvertrag
 	 */
 	public void addMietvertrag(Mietvertrag m) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(m);
+		session.getTransaction().commit();
+		
+		//das alte Set:
 		mietvertraege.add(m);
 	}
 	
@@ -260,6 +324,14 @@ public class ImmoService {
 	 * @param w Der Kaufvertrag
 	 */
 	public void addKaufvertrag(Kaufvertrag k) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		//session.save(k.getHaus());
+		session.save(k);
+		session.getTransaction().commit();
+		
+		
+		//das alte set:
 		kaufvertraege.add(k);
 	}
 	
@@ -380,6 +452,12 @@ public class ImmoService {
 	 * @param m Der Mietvertrag
 	 */
 	public void deleteMietvertrag(Mietvertrag m) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.delete(m);
+		session.getTransaction().commit();
+		
+		//das alte set:
 		wohnungen.remove(m);
 	}
 	
@@ -388,11 +466,9 @@ public class ImmoService {
 	 */
 	public void addTestData() {
 		//Hibernate Session erzeugen
-		Session session = sessionFactory.openSession();
+		session = sessionFactory.openSession();
 		
 		//-----------------------MAKLER
-		session.beginTransaction();
-		
 		Makler m = new Makler();
 		m.setName("Max Mustermann");
 		m.setAdresse("Am Informatikum 9");
@@ -401,13 +477,9 @@ public class ImmoService {
 		
 		//TODO: Dieser Makler wird im Speicher und der DB gehalten
 		this.addMakler(m);
-		session.save(m);
-		session.getTransaction().commit();
 
 		
 		//-----------------------PERSONEN
-		session.beginTransaction();
-		
 		Person p1 = new Person();
 		p1.setAdresse("Informatikum");
 		p1.setNachname("Mustermann");
@@ -419,17 +491,13 @@ public class ImmoService {
 		p2.setNachname("Albers");
 		p2.setVorname("Hans");
 		
-		session.save(p1);
-		session.save(p2);
-		
 		//TODO: Diese Personen werden im Speicher und der DB gehalten
 		this.addPerson(p1);
 		this.addPerson(p2);
-		session.getTransaction().commit();
+
 		
 		//-----------------------HAUS
 		//Hibernate Session erzeugen
-		session.beginTransaction();
 		Haus h = new Haus();
 		h.setOrt("Hamburg");
 		h.setPlz(22527);
@@ -440,12 +508,8 @@ public class ImmoService {
 		h.setKaufpreis(10000000);
 		h.setGarten(true);
 		h.setVerwalter(m);
-		
-		session.save(h);
-		
 		//TODO: Dieses Haus wird im Speicher und der DB gehalten
-		this.addHaus(h);
-		session.getTransaction().commit();
+		
 		
 		/*
 		//-----------------------AUSGABE IMMO
@@ -464,9 +528,7 @@ public class ImmoService {
 		
 		*/
 		
-		//-----------------------WOHNUNG
-		session.beginTransaction(); ///////////////-------
-		
+		//-----------------------WOHNUNG		
 		Wohnung w = new Wohnung();
 		w.setOrt("Hamburg");
 		w.setPlz(22527);
@@ -479,8 +541,6 @@ public class ImmoService {
 		w.setBalkon(false);
 		w.setVerwalter(m);
 		this.addWohnung(w);
-
-		session.save(w); //////--------angepasst
 
 		w = new Wohnung();
 		w.setOrt("Berlin");
@@ -495,13 +555,7 @@ public class ImmoService {
 		w.setVerwalter(m);
 		this.addWohnung(w);
 		
-		session.save(w); //////--------
-		session.getTransaction().commit();
-
-		
 		//-----------------------KAUFVERTRAG
-		session.beginTransaction(); ///////////////2
-		
 		Kaufvertrag kv = new Kaufvertrag();
 		kv.setHaus(h);
 		kv.setVertragspartner(p1);
@@ -510,14 +564,10 @@ public class ImmoService {
 		kv.setOrt("Hamburg");
 		kv.setAnzahlRaten(5);
 		kv.setRatenzins(4);
+		this.addHaus(h);
 		this.addKaufvertrag(kv);
 		
-		session.save(kv); //////2
-		session.getTransaction().commit();//////2
-
-		
 		//-----------------------MIETVERTRAG
-		session.beginTransaction(); 
 		Mietvertrag mv = new Mietvertrag();
 		mv.setWohnung(w);
 		mv.setVertragspartner(p2);
@@ -528,9 +578,7 @@ public class ImmoService {
 		mv.setNebenkosten(65);
 		mv.setDauer(36);
 		this.addMietvertrag(mv);
-		
-		session.save(mv);
-		session.getTransaction().commit();
+
 		
 		session.close();//////2
 	}

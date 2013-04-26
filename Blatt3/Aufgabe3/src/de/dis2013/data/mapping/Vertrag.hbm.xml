@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>
+<hibernate-mapping> <!-- !!!!!!!!!	Für brutale Gewalt folgendes einsetzen: default-cascade="all"-->
 	<class name="de.dis2013.data.Vertrag" abstract="true">
 		<id name="vertragsnummer" column="vertragsnummer">
 			<generator class="increment" />
