@@ -462,6 +462,48 @@ public class ImmoService {
 	}
 	
 	/**
+	 * Changes the attribute password for Makler.
+	 * @param id
+	 * @param password
+	 */
+	public void updateMaklerPassword(int id, String password) {
+		//Hibernate Session erzeugen
+		session = sessionFactory.openSession();
+		
+		Makler m = this.getMaklerById(id);
+		m.setPasswort(password);
+		
+		// TODO: update Makler in DB?
+	}
+	
+	/**
+	 * Updates name of Makler in DB.
+	 * @param id ID of the Makler for name update.
+	 * @param name New name of the Makler.
+	 */
+	public void updateMaklerName(int id, String name) {
+		//Hibernate Session erzeugen
+		session = sessionFactory.openSession();
+		
+		Makler m = this.getMaklerById(id);
+		m.setName(name);
+		
+		// TODO: update Makler in DB?
+	}
+	
+	/**
+	 * Prints out Makler as String.
+	 * @param id ID of the Makler to print.
+	 * @return String of the Makler.
+	 */
+	public String printMakler(int id) {
+		Makler m = this.getMaklerById(id);
+		
+		return m.toString();
+	}
+	
+	
+	/**
 	 * Fügt einige Testdaten hinzu
 	 */
 	public void addTestData() {
