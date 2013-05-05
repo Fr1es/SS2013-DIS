@@ -474,10 +474,6 @@ public class ImmoService {
 		m.setPasswort(password);
 		
 		// TODO: update Makler in DB?
-		// is this right?
-		session.beginTransaction();
-		session.update(m);
-		session.getTransaction().commit();
 	}
 	
 	/**
@@ -493,10 +489,6 @@ public class ImmoService {
 		m.setName(name);
 		
 		// TODO: update Makler in DB?
-		// is this right?
-		session.beginTransaction();
-		session.update(m);
-		session.getTransaction().commit();
 	}
 	
 	/**
