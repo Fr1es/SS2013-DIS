@@ -110,7 +110,19 @@ public class ImmoService {
 	 * Gibt alle Makler zurück
 	 */
 	public Set<Makler> getAllMakler() {
-		return makler;
+//		return makler;
+		//new TreeSet<Foo>(myList);
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		List ausgabe = session.createQuery("from Makler as makler").list();
+		
+		session.getTransaction().commit();
+		session.close();		
+		
+		Set<Makler> ausgabeSet = new HashSet<Makler>(ausgabe);
+		return ausgabeSet;
+		
 	}
 	
 	/**
