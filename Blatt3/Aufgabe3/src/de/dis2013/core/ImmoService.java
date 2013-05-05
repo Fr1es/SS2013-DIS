@@ -47,6 +47,7 @@ public class ImmoService {
 	 * @return Makler mit der ID oder null
 	 */
 	public Makler getMaklerById(int id) {
+		/*
 		Iterator<Makler> it = makler.iterator();
 		
 		while(it.hasNext()) {
@@ -57,6 +58,10 @@ public class ImmoService {
 		}
 		
 		return null;
+		*/
+		
+		Makler ausgabe = (Makler) session.get(Makler.class, id);
+		return ausgabe;
 	}
 	
 	/**
@@ -90,6 +95,7 @@ public class ImmoService {
 	 * @return Person mit der ID oder null
 	 */
 	public Person getPersonById(int id) {
+		/*
 		Iterator<Person> it = personen.iterator();
 		
 		while(it.hasNext()) {
@@ -100,6 +106,10 @@ public class ImmoService {
 		}
 		
 		return null;
+		*/
+		
+		Person ausgabe = (Person) session.get(Person.class, id);
+		return ausgabe;
 	}
 	
 	/**
@@ -210,16 +220,19 @@ public class ImmoService {
 	 * @return Das Haus oder null, falls nicht gefunden
 	 */
 	public Haus getHausById(int id) {
-		Iterator<Haus> it = haeuser.iterator();
+//		Iterator<Haus> it = haeuser.iterator();
+//		
+//		while(it.hasNext()) {
+//			Haus h = it.next();
+//			
+//			if(h.getId() == id)
+//				return h;
+//		}
+//		
+//		return null;
 		
-		while(it.hasNext()) {
-			Haus h = it.next();
-			
-			if(h.getId() == id)
-				return h;
-		}
-		
-		return null;
+		Haus ausgabe = (Haus) session.get(Haus.class, id);
+		return ausgabe;
 	}
 	
 	/**
@@ -277,16 +290,19 @@ public class ImmoService {
 	 * @return Die Wohnung oder null, falls nicht gefunden
 	 */
 	public Wohnung getWohnungById(int id) {
-		Iterator<Wohnung> it = wohnungen.iterator();
+//		Iterator<Wohnung> it = wohnungen.iterator();
+//		
+//		while(it.hasNext()) {
+//			Wohnung w = it.next();
+//			
+//			if(w.getId() == id)
+//				return w;
+//		}
+//		
+//		return null;
 		
-		while(it.hasNext()) {
-			Wohnung w = it.next();
-			
-			if(w.getId() == id)
-				return w;
-		}
-		
-		return null;
+		Wohnung ausgabe = (Wohnung) session.get(Wohnung.class, id);
+		return ausgabe;
 	}
 	
 	/**
@@ -379,16 +395,19 @@ public class ImmoService {
 	 * @return Der Mietvertrag oder null, falls nicht gefunden
 	 */
 	public Mietvertrag getMietvertragById(int id) {
-		Iterator<Mietvertrag> it = mietvertraege.iterator();
+//		Iterator<Mietvertrag> it = mietvertraege.iterator();
+//		
+//		while(it.hasNext()) {
+//			Mietvertrag m = it.next();
+//			
+//			if(m.getId() == id)
+//				return m;
+//		}
+//		
+//		return null;
 		
-		while(it.hasNext()) {
-			Mietvertrag m = it.next();
-			
-			if(m.getId() == id)
-				return m;
-		}
-		
-		return null;
+		Mietvertrag ausgabe = (Mietvertrag) session.get(Mietvertrag.class, id);
+		return ausgabe;
 	}
 	
 	/**
@@ -435,16 +454,20 @@ public class ImmoService {
 	 * @return Der Kaufvertrag oder null, falls nicht gefunden
 	 */
 	public Kaufvertrag getKaufvertragById(int id) {
-		Iterator<Kaufvertrag> it = kaufvertraege.iterator();
+//		Iterator<Kaufvertrag> it = kaufvertraege.iterator();
+//		
+//		while(it.hasNext()) {
+//			Kaufvertrag k = it.next();
+//			
+//			if(k.getId() == id)
+//				return k;
+//		}
+//		
+//		return null;
 		
-		while(it.hasNext()) {
-			Kaufvertrag k = it.next();
-			
-			if(k.getId() == id)
-				return k;
-		}
 		
-		return null;
+		Kaufvertrag ausgabe = (Kaufvertrag) session.get(Kaufvertrag.class, id);
+		return ausgabe;
 	}
 	
 	/**
