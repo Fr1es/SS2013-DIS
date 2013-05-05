@@ -111,7 +111,7 @@ public class ImmoService {
 	 */
 	public Set<Makler> getAllMakler() {
 //		return makler;
-		//new TreeSet<Foo>(myList);
+
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		
@@ -204,7 +204,19 @@ public class ImmoService {
 	 * Gibt alle Personen zurück
 	 */
 	public Set<Person> getAllPersons() {
-		return personen;
+//		return personen;
+		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		List ausgabe = session.createQuery("from Person as person").list();
+		
+		session.getTransaction().commit();
+		session.close();		
+		
+		Set<Person> ausgabeSet = new HashSet<Person>(ausgabe);
+		return ausgabeSet;
+		
 	}
 	
 	/**
