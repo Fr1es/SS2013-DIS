@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -60,7 +61,14 @@ public class ImmoService {
 		return null;
 		*/
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction();		
+		
 		Makler ausgabe = (Makler) session.get(Makler.class, id);
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return ausgabe;
 	}
 	
@@ -70,16 +78,32 @@ public class ImmoService {
 	 * @return Makler mit der ID oder null
 	 */
 	public Makler getMaklerByLogin(String login) {
-		Iterator<Makler> it = makler.iterator();
+//		Iterator<Makler> it = makler.iterator();
+//		
+//		while(it.hasNext()) {
+//			Makler m = it.next();
+//			
+//			if(m.getLogin().equals(login))
+//				return m;
+//		}
+//		
+//		return null;
 		
-		while(it.hasNext()) {
-			Makler m = it.next();
-			
-			if(m.getLogin().equals(login))
-				return m;
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		List ausgabe = session.createQuery("from Makler as makler where makler.login = ?").setString(0, login).list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		if (ausgabe.size() == 0)
+		{
+			return null;
 		}
+			
+		return (Makler) ausgabe.get(0);
 		
-		return null;
 	}
 	
 	/**
@@ -107,8 +131,14 @@ public class ImmoService {
 		
 		return null;
 		*/
+		session = sessionFactory.openSession();
+		session.beginTransaction();
 		
 		Person ausgabe = (Person) session.get(Person.class, id);
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return ausgabe;
 	}
 	
@@ -231,7 +261,14 @@ public class ImmoService {
 //		
 //		return null;
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
 		Haus ausgabe = (Haus) session.get(Haus.class, id);
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return ausgabe;
 	}
 	
@@ -301,7 +338,13 @@ public class ImmoService {
 //		
 //		return null;
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
 		Wohnung ausgabe = (Wohnung) session.get(Wohnung.class, id);
+		session.getTransaction().commit();
+		session.close();
+		
 		return ausgabe;
 	}
 	
@@ -406,7 +449,13 @@ public class ImmoService {
 //		
 //		return null;
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		
 		Mietvertrag ausgabe = (Mietvertrag) session.get(Mietvertrag.class, id);
+		
+		session.getTransaction().commit();
+		session.close();
 		return ausgabe;
 	}
 	
@@ -465,8 +514,13 @@ public class ImmoService {
 //		
 //		return null;
 		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
 		
 		Kaufvertrag ausgabe = (Kaufvertrag) session.get(Kaufvertrag.class, id);
+		
+		session.getTransaction().commit();
+		session.close();
 		return ausgabe;
 	}
 	
