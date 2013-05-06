@@ -27,12 +27,12 @@ import de.dis2013.data.Wohnung;
  */
 public class ImmoService {
 	//Datensätze im Speicher
-	private Set<Makler> makler = new HashSet<Makler>();
-	private Set<Person> personen = new HashSet<Person>();
-	private Set<Haus> haeuser = new HashSet<Haus>();
-	private Set<Wohnung> wohnungen = new HashSet<Wohnung>();
-	private Set<Mietvertrag> mietvertraege = new HashSet<Mietvertrag>();
-	private Set<Kaufvertrag> kaufvertraege = new HashSet<Kaufvertrag>();
+//	private Set<Makler> makler = new HashSet<Makler>();
+//	private Set<Person> personen = new HashSet<Person>();
+//	private Set<Haus> haeuser = new HashSet<Haus>();
+//	private Set<Wohnung> wohnungen = new HashSet<Wohnung>();
+//	private Set<Mietvertrag> mietvertraege = new HashSet<Mietvertrag>();
+//	private Set<Kaufvertrag> kaufvertraege = new HashSet<Kaufvertrag>();
 	
 	//Hibernate Session
 	private SessionFactory sessionFactory;
@@ -166,7 +166,7 @@ public class ImmoService {
 		session.getTransaction().commit();
 		
 		//das alte Set:
-		makler.add(m);
+//		makler.add(m);
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class ImmoService {
 		
 		
 		//das alte Set:
-		makler.remove(m);
+//		makler.remove(m);
 	}
 	
 	/**
@@ -197,7 +197,7 @@ public class ImmoService {
 		
 		
 		//das alte set:
-		personen.add(p);
+//		personen.add(p);
 	}
 	
 	/**
@@ -230,7 +230,7 @@ public class ImmoService {
 		session.getTransaction().commit();
 		
 		//das alte Set:
-		personen.remove(p);
+//		personen.remove(p);
 	}
 	
 	/**
@@ -246,7 +246,7 @@ public class ImmoService {
 		
 		
 		//das alte Set:
-		haeuser.add(h);
+//		haeuser.add(h);
 	}
 	
 	/**
@@ -321,7 +321,7 @@ public class ImmoService {
 		
 		
 		//das alte Set:
-		haeuser.remove(h);
+//		haeuser.remove(h);
 	}
 	
 	/**
@@ -336,7 +336,7 @@ public class ImmoService {
 		
 		
 		//das alte Set:
-		wohnungen.add(w);
+//		wohnungen.add(w);
 	}
 	
 	/**
@@ -409,7 +409,7 @@ public class ImmoService {
 		
 		
 		//das alte set:
-		wohnungen.remove(w);
+//		wohnungen.remove(w);
 	}
 	
 	
@@ -424,7 +424,7 @@ public class ImmoService {
 		session.getTransaction().commit();
 		
 		//das alte Set:
-		mietvertraege.add(m);
+//		mietvertraege.add(m);
 	}
 	
 	/**
@@ -440,7 +440,7 @@ public class ImmoService {
 		
 		
 		//das alte set:
-		kaufvertraege.add(k);
+//		kaufvertraege.add(k);
 	}
 	
 	/**
@@ -643,7 +643,7 @@ public class ImmoService {
 		session.getTransaction().commit();
 		
 		//das alte set:
-		wohnungen.remove(m);
+//		wohnungen.remove(m);
 	}
 	
 	/**
@@ -666,6 +666,30 @@ public class ImmoService {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.update(p);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	/**
+	 * Update Haus
+	 * NEU
+	 */
+	public void updateHaus(Haus h){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(h);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	/**
+	 * Update Wohnung
+	 * NEU
+	 */
+	public void updateWohnung(Wohnung w){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(w);
 		session.getTransaction().commit();
 		session.close();
 	}
