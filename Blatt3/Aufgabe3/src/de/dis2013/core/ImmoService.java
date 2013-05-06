@@ -622,7 +622,7 @@ public class ImmoService {
 //		
 //		return null;
 		
-		session = sessionFactory.openSession();
+
 		session.beginTransaction();
 		
 		Kaufvertrag ausgabe = (Kaufvertrag) session.get(Kaufvertrag.class, id);
@@ -644,6 +644,30 @@ public class ImmoService {
 		
 		//das alte set:
 		wohnungen.remove(m);
+	}
+	
+	/**
+	 * Update Makler
+	 * NEU
+	 */
+	public void updateMakler(Makler m){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(m);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	/**
+	 * Update Person
+	 * NEU
+	 */
+	public void updatePerson(Person p){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(p);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	/**
