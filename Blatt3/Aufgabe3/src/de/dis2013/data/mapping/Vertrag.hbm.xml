@@ -19,7 +19,7 @@
 			<property name="ratenzins" type="integer" column="ratenzins" />
 			
 			<many-to-one name="vertragspartner" class="de.dis2013.data.Person" column="vertragspartner"  /> <!--  not-null="true" -->
-			<many-to-one name="haus" class="de.dis2013.data.Haus" column="haus"  /> <!--  not-null="true" -->
+			<many-to-one name="haus" class="de.dis2013.data.Haus" column="haus" unique = "true" not-null="true" /> <!--  not-null="true" -->
 
 		</joined-subclass>
 
@@ -30,7 +30,7 @@
 			<property name="nebenkosten" type="integer" column="nebenkosten" />
 			
 			<many-to-one name="vertragspartner" class="de.dis2013.data.Person" column="vertragspartner"  /> <!--  not-null="true" -->
-			<many-to-one name="wohnung" class="de.dis2013.data.Wohnung" column="wohnung"  /> <!--  not-null="true" -->
+			<many-to-one name="wohnung" class="de.dis2013.data.Wohnung" column="wohnung" unique = "true" not-null="true"/> <!--  not-null="true" -->
 
 
 		</joined-subclass>
