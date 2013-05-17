@@ -122,6 +122,7 @@ public class Buffer {
 	
 	/**
 	 * Search the buffer for all entries containing a certain transaction ID (taID) and returns an ArrayList with them.
+	 * ATTENTION! Also removes all entries containing this taID from the buffer.
 	 * @param taID is the transaction ID to look for.
 	 * @return will be an ArrayList with BufferEntry elements possessing the specified transaction ID. Will be ordered based upon the time of adding them to the buffer.
 	 */
