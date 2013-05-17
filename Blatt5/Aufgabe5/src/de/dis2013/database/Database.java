@@ -3,13 +3,19 @@ package de.dis2013.database;
 /**
  * This class simulates the database in this system. Pages need a pageID, LSN, Data
  * the PageID is the prim key
- * only pageIDs from 0 to 10000 are allowed
+ * only pageIDs from 0 to MAX_INDEX_TUPLE are allowed
  * The database is save to the hdd
- * @author Bj√∂rn Fries
+ * @author Björn Fries, Robert Heinecke
  *
  */
 public class Database {
-	Tuple[] database = new Tuple[10000]; //for now!!!! TODO
+	
+	/**
+	 * This is the maximum number of database entries. Must be in INT_MAX_SIZE.
+	 */
+	static int MAX_INDEX_TUPLE = 10000;
+	
+	Tuple[] database = new Tuple[MAX_INDEX_TUPLE];
 	//Singleton
 	static final private Database db;
 	
@@ -33,7 +39,7 @@ public class Database {
 	
 	
 	public void save(int pageId, int lsn, String data) {
-		if (0 <= pageId || pageId <= 10000) {
+		if (0 <= pageId || pageId <= MAX_INDEX_TUPLE) {
 			
 			Tuple t = new Tuple(lsn, data);	
 			database[pageId] = t;

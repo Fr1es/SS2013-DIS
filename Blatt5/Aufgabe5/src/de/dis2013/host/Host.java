@@ -41,10 +41,20 @@ public class Host {
 		return taid.get();
 	}
 	
+	/**
+	 * Commits transaction from buffer to database.
+	 * @param taid is the ID of the transaction that will be committed.
+	 */
 	public void commit(int taid) {
 		//TODO
 	}
 	
+	/**
+	 * Writes transaction into the buffer.
+	 * @param taid
+	 * @param pageid
+	 * @param data
+	 */
 	public void write(int taid, int pageid, String data) {
 		//TODO
 		//check for full buffer

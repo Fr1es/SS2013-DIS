@@ -20,7 +20,7 @@ public class Log {
 	private Log() {
 	}
 	
-	static public Log getInsatnce() {
+	static public Log getInstance() {
 		return logger;
 	}
 	
