@@ -11,10 +11,10 @@ public class Main {
 		System.out.println("-- Programmstart --");
 		
 				
-//		Log.getInsatnce().toLog(100, 200, 300, "Test1");
-//		Log.getInsatnce().toLog(140, 200, 300, "Test2");
-//		Log.getInsatnce().toLog(120, 2020, 3, "Test3");
-//		Log.getInsatnce().toLog(10340, 200, 300, "Test4");
+//		Log.getInstance().toLog(100, 200, 300, "Test1");
+//		Log.getInstance().toLog(140, 200, 300, "Test2");
+//		Log.getInstance().toLog(120, 2020, 3, "Test3");
+//		Log.getInstance().toLog(10340, 200, 300, "Test4");
 //		
 //		List<LogEntry> a = Log.getInsatnce().output();
 //		
