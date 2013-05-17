@@ -1,8 +1,8 @@
 package de.dis2013.host.util;
 
 /**
- * log sequence number
- * @author Bj√∂rn Fries
+ * Log Sequence Number
+ * @author Björn Fries
  *
  */
 public class NrLSN {
