@@ -63,19 +63,12 @@ public class Buffer {
 	}
 	
 	/**
-	 * Search for all entries in the buffer with the taid and sets their commit status to true
-	 * @param taid all entries with the same taid
-	 */
-	public void commit(int taid) {
-		
-	}
-	
-	/**
 	 * Checks the buffer for its size. Returns true if there are more than {@link #BUFFER_COMMIT_SIZE} entries and false if there are less.
 	 * Will also call upon writeAllCommittedTransactionsToDB if necessary (i.e. when it returns true).
 	 * @return is true if there are more than {@link #BUFFER_COMMIT_SIZE} entries, else false.
 	 */
 	private boolean performFullCheck() {
+		//all pages are count, even the ones with metadata!!!!
 		if (buf.size() > Buffer.BUFFER_COMMIT_SIZE) {
 			this.writeAllCommittedTransactionsToDB();
 			return true;
