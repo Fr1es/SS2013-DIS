@@ -1,5 +1,7 @@
 package de.dis2013.start;
 
+import de.dis2013.host.Buffer;
+
 
 
 public class Main {
@@ -10,26 +12,16 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("-- Programmstart --");
 		
-				
-//		Log.getInstance().toLog(100, 200, 300, "Test1");
-//		Log.getInstance().toLog(140, 200, 300, "Test2");
-//		Log.getInstance().toLog(120, 2020, 3, "Test3");
-//		Log.getInstance().toLog(10340, 200, 300, "Test4");
-//		
-//		List<LogEntry> a = Log.getInsatnce().output();
-//		
-//		Iterator<LogEntry> it = a.iterator();
-//		while(it.hasNext()){
-//			System.out.println(it.next().toString());
-//		}
-//		
-//		System.out.println("---");
-//		Collections.reverse(a);
-//		
-//		Iterator<LogEntry> it2 = a.iterator();
-//		while(it2.hasNext()){
-//			System.out.println(it2.next().toString());
-//		}
+		Buffer.getInstance().addBufferEntry(1, 1, 1, "10", false);
+		Buffer.getInstance().addBufferEntry(2, 1, 2, "10", false);
+		Buffer.getInstance().addBufferEntry(3, 1, 2, "10", false);
+		Buffer.getInstance().addBufferEntry(4, 1, 1, "20", false);
+//		Buffer.getInstance().addBufferEntry(5, 2, 1, "999", false);
+		Buffer.getInstance().addBufferEntry(6, 1, 1, "10", false);
+		Buffer.getInstance().addBufferEntry(7, 2, 1, "test", false);
+		Buffer.getInstance().addBufferEntry(8, 2, -99, "", true);
+		//neue funktion: buffer commit(int taid) suche alle pages mit der taid und setze sie auf commit
+		
 
 		System.out.println("-- Programmende --");
 

@@ -50,7 +50,7 @@ public class BufferEntry {
 		} else {
 			throw new RuntimeException();
 		}
-		if (pageID > 0) {
+		if (pageID > 0 || pageID == -99) {
 			this.pageID = pageID;
 		} else {
 			throw new RuntimeException();

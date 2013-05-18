@@ -53,13 +53,21 @@ public class Buffer {
 	 * Add a BufferEntry (made from its base components). Use this function only for writing to the database.
 	 * @param lsn
 	 * @param taID
-	 * @param pageID
+	 * @param pageID if == -99 this entry will be ignored! (used for commit entry!)
 	 * @param data
 	 * @param commit
 	 */
 	public void addBufferEntry(int lsn, int taID, int pageID, String data, boolean commit) {
 		BufferEntry e = new BufferEntry(lsn, taID, pageID, data, commit);
 		this.addBufferEntry(e);
+	}
+	
+	/**
+	 * Search for all entries in the buffer with the taid and sets their commit status to true
+	 * @param taid all entries with the same taid
+	 */
+	public void commit(int taid) {
+		
 	}
 	
 	/**
@@ -78,6 +86,7 @@ public class Buffer {
 	
 	/**
 	 * Writes all committed transactions from the buffer to the database. Should only be called upon from @link #addBufferEntry(BufferEntry).
+	 * ATTIONTION! all entries with the PageID == -99 are ignored for the saving process
 	 * @return should always be true. Means, that there are no more committed transactions in the buffer queue.
 	 */
 	private boolean writeAllCommittedTransactionsToDB() {
@@ -86,15 +95,19 @@ public class Buffer {
 		
 		if (be != null) {
 			
-			// if there is: look for all the BufferEntries with the same TAC
+			// if there is: look for all the BufferEntries with the same TAID
 			ArrayList<BufferEntry> temp = this.getElementsByTaID(be.getTaID());
 			
 			// create DB connection
 			Database db = Database.getInstance();
 			
 			// commit the selected buffer entries to DB
-			for (int i=1; i<=temp.size(); i++) {
-				db.save(temp.get(i).getPageID(), temp.get(i).getLSN(), temp.get(i).getData());
+			for (int i=0; i<temp.size(); i++) {
+				
+				if (temp.get(i).getPageID() != -99) { //ignore the commit entry for the db.save
+					db.save(temp.get(i).getPageID(), temp.get(i).getLSN(), temp.get(i).getData());
+				}
+				
 			}
 			
 			// call this method again to check for other committed transactions in the buffer
@@ -111,7 +124,7 @@ public class Buffer {
 	 * @return will be the last BufferEntry for the first committed transaction found.
 	 */
 	private BufferEntry checkBufferForCommit() {
-		for (int i=1; i<=this.buf.size(); i++) {
+		for (int i=0; i<this.buf.size(); i++) {
 			// check for committed transaction in buffer list
 			if (this.buf.get(i).getCommit() == true) {
 				return this.buf.get(i);
@@ -128,7 +141,7 @@ public class Buffer {
 	 */
 	private ArrayList<BufferEntry> getElementsByTaID(int taID) {
 		ArrayList<BufferEntry> temp = new ArrayList<BufferEntry>();
-		for (int i=1; i<=buf.size(); i++) {
+		for (int i=0; i<buf.size(); i++) {
 			if (buf.get(i).getTaID() == taID) {
 				// found an element with the same taID: add it to the temporary list
 				temp.add(buf.get(i));

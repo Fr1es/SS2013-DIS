@@ -5,7 +5,7 @@ package de.dis2013.database;
  * the PageID is the prim key
  * only pageIDs from 0 to MAX_INDEX_TUPLE are allowed
  * The database is save to the hdd
- * @author Bjšrn Fries, Robert Heinecke
+ * @author Bjï¿½rn Fries, Robert Heinecke
  *
  */
 public class Database {
@@ -39,8 +39,9 @@ public class Database {
 	
 	
 	public void save(int pageId, int lsn, String data) {
-		if (0 <= pageId || pageId <= MAX_INDEX_TUPLE) {
+		if (0 <= pageId && pageId <= MAX_INDEX_TUPLE) {
 			
+			System.out.println("database.save - PageID: "+pageId+" LSN: "+lsn+" Data: "+data);
 			Tuple t = new Tuple(lsn, data);	
 			database[pageId] = t;
 		}
