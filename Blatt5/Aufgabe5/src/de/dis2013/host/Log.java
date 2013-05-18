@@ -26,6 +26,13 @@ public class Log {
 	
 	
 	//real logging functions:
+	/**
+	 * Logging stuff...
+	 * @param lsn
+	 * @param taid
+	 * @param pageId == -99 if reDo saves metadata
+	 * @param reDo .equals("commit") if a TA commits;
+	 */
 	public void toLog(int lsn, int taid, int pageId, String reDo) {
 		LogEntry entry = new LogEntry(lsn, taid, pageId, reDo);
 		

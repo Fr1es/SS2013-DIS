@@ -37,7 +37,13 @@ public class Host {
 	
 	//normal host functions:
 	public int beginTransaction() {
-		taid.increment();
+		//logging BOT Entry?!
+		taid.increment(); //increment the return value
+		lsn.increment();
+		
+		//logging:
+		Log.getInstance().toLog(lsn.get(), taid.get(), -99, "bot");
+		
 		return taid.get();
 	}
 	
@@ -46,7 +52,14 @@ public class Host {
 	 * @param taid is the ID of the transaction that will be committed.
 	 */
 	public void commit(int taid) {
-		//TODO
+		lsn.increment();
+		
+		
+		//logging:
+		Log.getInstance().toLog(lsn.get(), taid, -99, "commit");
+		
+		//to DB:
+		Buffer.getInstance().addBufferEntry(lsn.get(), taid, -99, "", true);
 	}
 	
 	/**
@@ -56,8 +69,13 @@ public class Host {
 	 * @param data
 	 */
 	public void write(int taid, int pageid, String data) {
-		//TODO
-		//check for full buffer
+		lsn.increment();
+		
+		//logging:
+		Log.getInstance().toLog(lsn.get(), taid, pageid, data);
+		
+		//to buffer:
+		Buffer.getInstance().addBufferEntry(lsn.get(), taid, pageid, data, false);
 	}
 
 }
