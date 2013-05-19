@@ -41,7 +41,7 @@ public class Database {
 	public void save(int pageId, int lsn, String data) {
 		if (0 <= pageId && pageId <= MAX_INDEX_TUPLE) {
 			
-			System.out.println("database.save - PageID: "+pageId+" LSN: "+lsn+" Data: "+data);
+			System.out.println("de.dis2013.database.Database - saving: PageID: "+pageId+" LSN: "+lsn+" Data: "+data);
 			Tuple t = new Tuple(lsn, data);	
 			database[pageId] = t;
 		}
