@@ -13,7 +13,15 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("-- Programmstart --");
 		
-
+		int a = Host.getInsatnce().beginTransaction();
+		
+		Host.getInsatnce().write(a, 1, "10");
+		Host.getInsatnce().write(a, 2, "20");
+		Host.getInsatnce().write(a, 1, "10");
+		Host.getInsatnce().write(a, 2, "20");
+		Host.getInsatnce().write(a, 2, "20");
+		
+		Host.getInsatnce().commit(a);
 
 		System.out.println("-- Programmende --");
 

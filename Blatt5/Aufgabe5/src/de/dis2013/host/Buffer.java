@@ -45,6 +45,8 @@ public class Buffer {
 	 * @see de.dis2013.host.util.BufferEntry
 	 */
 	public void addBufferEntry(BufferEntry e) {
+		System.out.println("de.dis2013.host.Buffer - saving to buffer: lsn:"
+					+e.getLSN()+" pageID: "+e.getPageID()+" data: "+e.getData()+" commit: "+e.getCommit());
 		buf.add(e);
 		this.performFullCheck();
 	}
@@ -87,6 +89,7 @@ public class Buffer {
 		BufferEntry be = this.checkBufferForCommit();
 		
 		if (be != null) {
+			System.out.println("de.dis2013.host.Buffer - flush");
 			
 			// if there is: look for all the BufferEntries with the same TAID
 			ArrayList<BufferEntry> temp = this.getElementsByTaID(be.getTaID());
