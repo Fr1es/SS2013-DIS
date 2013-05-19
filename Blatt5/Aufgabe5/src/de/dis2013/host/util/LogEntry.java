@@ -3,7 +3,7 @@ package de.dis2013.host.util;
 /**
  * Entry in a log
  * a logentry can never be changed!
- * @author Bj√∂rn Fries
+ * @author Björn Fries
  *
  */
 public class LogEntry {

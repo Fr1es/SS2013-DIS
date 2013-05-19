@@ -23,7 +23,7 @@ public class Host {
 		crashRecovery();
 	}
 	
-	static public Host getInsatnce() {
+	static public Host getInstance() {
 		return HOST;
 	}
 	
