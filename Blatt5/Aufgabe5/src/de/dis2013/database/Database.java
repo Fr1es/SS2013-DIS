@@ -29,7 +29,9 @@ public class Database {
 	}
 	
 	//Singleton
-	private Database() {}
+	private Database() {
+		System.out.println("de.dis2013.database.Database - constructor");
+	}
 	
 	//Singleton
 	static public Database getInstance() {

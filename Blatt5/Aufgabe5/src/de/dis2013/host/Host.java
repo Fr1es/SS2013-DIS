@@ -19,6 +19,7 @@ public class Host {
 	}
 	
 	private Host() {
+		System.out.println("de.dis2013.host.Host - constructor");
 		crashRecovery();
 	}
 	
