@@ -37,7 +37,7 @@ public class Log {
 		LogEntry entry = new LogEntry(lsn, taid, pageId, reDo);
 		
 		try {
-			FileWriter fw = new FileWriter("Log.txt", true);
+			FileWriter fw = new FileWriter("Log\\Log.txt", true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			
 			//write into the file:
@@ -57,7 +57,7 @@ public class Log {
 		LogEntry entry;
 		
 		try {
-			FileReader fr = new FileReader("Log.txt");
+			FileReader fr = new FileReader("Log\\Log.txt");
 			BufferedReader br = new BufferedReader(fr);
 			
 			//read the file

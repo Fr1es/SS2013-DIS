@@ -107,9 +107,11 @@ public class Buffer {
 			Database db = Database.getInstance();
 			
 			// commit the selected buffer entries to DB
-			// ignore the last one, as this is only the commit statement
-			for (int i=1; i<temp.size(); i++) {
-				db.save(temp.get(i-1).getPageID(), temp.get(i-1).getLSN(), temp.get(i-1).getData());
+			// ignore all pages with the pageID = -99 as this is used for metadata (commit AND bot statements!)
+			for (int i=0; i<temp.size(); i++) {
+				if (temp.get(i).getPageID() != -99) {
+					db.save(temp.get(i).getPageID(), temp.get(i).getLSN(), temp.get(i).getData());
+				}
 			}
 			
 			// call this method again to check for other committed transactions in the buffer
