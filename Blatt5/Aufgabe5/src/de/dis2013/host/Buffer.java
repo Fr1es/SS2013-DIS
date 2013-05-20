@@ -109,7 +109,7 @@ public class Buffer {
 			// commit the selected buffer entries to DB
 			// ignore the last one, as this is only the commit statement
 			for (int i=1; i<temp.size(); i++) {
-				db.save(temp.get(i).getPageID(), temp.get(i).getLSN(), temp.get(i).getData());
+				db.save(temp.get(i-1).getPageID(), temp.get(i-1).getLSN(), temp.get(i-1).getData());
 			}
 			
 			// call this method again to check for other committed transactions in the buffer
@@ -128,8 +128,8 @@ public class Buffer {
 	private BufferEntry returnFirstCommittedTransactionFromBuffer() {
 		for (int i=1; i<=this.buf.size(); i++) {
 			// check for committed transaction in buffer list
-			if (this.buf.get(i).getCommit() == true) {
-				return this.buf.get(i);
+			if (this.buf.get(i-1).getCommit() == true) {
+				return this.buf.get(i-1);
 			}
 		}
 		return null;
@@ -147,11 +147,11 @@ public class Buffer {
 		ArrayList<BufferEntry> temp = new ArrayList<BufferEntry>();
 		for (int i=1; i<=buf.size(); i++) {
 			
-			if (buf.get(i).getTaID() == taID) {
+			if (buf.get(i-1).getTaID() == taID) {
 				// found an element with the same taID: add it to the temporary list
-				temp.add(buf.get(i));
+				temp.add(buf.get(i-1));
 				// remove it from the buffer
-				buf.remove(i);
+				buf.remove(i-1);
 				// decrement for not skipping one element
 				i--;
 			}
