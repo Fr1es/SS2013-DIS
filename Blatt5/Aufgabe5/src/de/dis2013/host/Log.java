@@ -77,6 +77,8 @@ public class Log {
 		} catch (NumberFormatException e) {
 			System.out.println("Log besitzt fehlerhafte Dateien Strings statt Zahlen");
 			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println("Log could not be found.");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

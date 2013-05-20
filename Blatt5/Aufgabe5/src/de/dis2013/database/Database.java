@@ -77,7 +77,7 @@ public class Database {
 		int returnValue = -1;
 		
 		try {
-			System.out.println("de.dis2013.database.Database - trying to reading: PageID: "+pageId);
+			System.out.print("de.dis2013.database.Database - trying to reading: PageID: "+pageId);
 			FileReader fr = new FileReader("Database\\"+pageId+".txt");
 			BufferedReader br = new BufferedReader(fr);
 
@@ -87,10 +87,10 @@ public class Database {
 			String[] pieces = line.split(" ");
 			returnValue = Integer.parseInt(pieces[0]);
 			
-			System.out.println("pageID: "+pageId+" found");
+			System.out.println(" --> OK");
 		} catch (FileNotFoundException e) {
 			
-			System.out.println("pageID: "+pageId+" NOT found");
+			System.out.println(" --> NOT found");
 			return -1;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class Database {
 		String returnValue = null;
 		
 		try {
-			System.out.println("de.dis2013.database.Database - trying to reading: PageID: "+pageId);
+			System.out.print("de.dis2013.database.Database - trying to reading: PageID: "+pageId);
 			FileReader fr = new FileReader("Database\\"+pageId+".txt");
 			BufferedReader br = new BufferedReader(fr);
 
@@ -129,10 +129,10 @@ public class Database {
 			String[] pieces = line.split(" ");
 			returnValue = pieces[1];
 			
-			System.out.println(""+pageId+" found");
+			System.out.println(" --> OK");
 		} catch (FileNotFoundException e) {
 			
-			System.out.println(""+pageId+" NOT found");
+			System.out.println(" --> NOT found");
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
