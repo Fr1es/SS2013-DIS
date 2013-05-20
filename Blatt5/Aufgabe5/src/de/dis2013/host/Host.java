@@ -1,5 +1,10 @@
 package de.dis2013.host;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.dis2013.database.Database;
+import de.dis2013.host.util.LogEntry;
 import de.dis2013.host.util.NrLSN;
 import de.dis2013.host.util.NrTAID;
 
@@ -19,8 +24,9 @@ public class Host {
 	}
 	
 	private Host() {
-		System.out.println("de.dis2013.host.Host - constructor");
+		System.out.println("de.dis2013.host.Host - START constructor");
 		crashRecovery();
+		System.out.println("de.dis2013.host.Host - END constructor");
 	}
 	
 	static public Host getInstance() {
@@ -33,6 +39,38 @@ public class Host {
 		
 		lsn.set(0);//for now
 		taid.set(0);//for now
+		
+		System.out.println("de.dis2013.host.Host - START crashRecovery");
+		List<LogEntry> log = Log.getInstance().output();
+		//List for Winners:
+		List<Integer> winners = new ArrayList<Integer>();
+		
+		//write down the taid for every taid with a commit statement in the log
+		for (int i = 0; i<log.size(); i++) {
+			if (log.get(i).getRedo().equals("commit")) { //if it is a commit
+				if (!winners.contains( log.get(i).getTaid() ) ) { //if it is not already in the winners list (should not happen but for debugging..)
+					winners.add( log.get(i).getTaid() );
+				}
+			}
+		}
+		
+
+		
+		//redo phase
+		LogEntry entry;
+		for (int i = 0; i<log.size(); i++) {
+			entry = log.get(i);
+			
+			if ( entry.getPageId() != -99 ) {//the entry is no Metadata...
+				if ( winners.contains( entry.getTaid()) ) { //if the entry in the log is a winner taid:
+					if ( Database.getInstance().getLsn(entry.getPageId()) < entry.getLsn() ) { //if the lsn in the log is newer than the lsn in the DB (incl -1 for not found)
+						Database.getInstance().save(entry.getPageId(), entry.getLsn(), entry.getRedo());
+						System.out.println("redone: pageID:"+entry.getPageId()+" LSN: "+entry.getLsn()+" Data: "+entry.getRedo());
+					}
+				}
+			}
+		}
+		System.out.println("de.dis2013.host.Host - END crashRecovery");
 	}
 	
 	

@@ -51,6 +51,10 @@ public class Log {
 			
 	}
 	
+	/**
+	 * Output the whole log:
+	 * @return
+	 */
 	public List<LogEntry> output() {
 		List<LogEntry> output = new ArrayList<LogEntry>();
 		String line;

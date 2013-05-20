@@ -34,7 +34,6 @@ public class Database {
 	
 	//Singleton
 	private Database() {
-		System.out.println("de.dis2013.database.Database - constructor");
 	}
 	
 	//Singleton
@@ -88,10 +87,10 @@ public class Database {
 			String[] pieces = line.split(" ");
 			returnValue = Integer.parseInt(pieces[0]);
 			
-			System.out.println(""+pageId+" found");
+			System.out.println("pageID: "+pageId+" found");
 		} catch (FileNotFoundException e) {
 			
-			System.out.println(""+pageId+" NOT found");
+			System.out.println("pageID: "+pageId+" NOT found");
 			return -1;
 		} catch (Exception e) {
 			e.printStackTrace();
