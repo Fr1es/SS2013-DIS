@@ -35,11 +35,6 @@ public class Host {
 	
 	//error host functions:
 	private void crashRecovery(){
-		//TODO happened a crash? find last nrLSN and nrTAID and reset to them. redo TAs!
-		
-		lsn.set(0);//for now
-		taid.set(0);//for now
-		
 		System.out.println("de.dis2013.host.Host - START crashRecovery");
 		List<LogEntry> log = Log.getInstance().output();
 		//List for Winners:
@@ -68,6 +63,18 @@ public class Host {
 				}
 			}
 		}
+		
+		//setting lsn and taid:
+		if (log.size() != 0){
+			entry = log.get( log.size()-1 );
+			
+			lsn.set( entry.getLsn() );
+			taid.set( entry.getTaid() );
+		} else { //default:
+			lsn.set(0);
+			taid.set(0);
+		}
+		
 		System.out.println("de.dis2013.host.Host - END crashRecovery");
 	}
 	
