@@ -58,7 +58,7 @@ public class Host {
 				if ( winners.contains( entry.getTaid()) ) { //if the entry in the log is a winner taid:
 					if ( Database.getInstance().getLsn(entry.getPageId()) < entry.getLsn() ) { //if the lsn in the log is newer than the lsn in the DB (incl -1 for not found)
 						Database.getInstance().save(entry.getPageId(), entry.getLsn(), entry.getRedo());
-						System.out.println("REDONE: pageID:"+entry.getPageId()+" LSN: "+entry.getLsn()+" Data: "+entry.getRedo());
+						System.out.println("de.dis2013.host.Host REDONE: pageID:"+entry.getPageId()+" LSN: "+entry.getLsn()+" Data: "+entry.getRedo());
 					}
 				}
 			}

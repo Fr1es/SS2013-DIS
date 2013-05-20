@@ -98,7 +98,7 @@ public class Buffer {
 		BufferEntry be = this.returnFirstCommittedTransactionFromBuffer();
 		
 		if (be != null) {
-			if (Buffer.DEBUG) System.out.println("de.dis2013.host.Buffer - flush");
+			if (Buffer.DEBUG) System.out.println("de.dis2013.host.Buffer - flushing to DB");
 			
 			// get all BufferEntry objects with the same taID
 			ArrayList<BufferEntry> temp = this.getElementsByTaID(be.getTaID());
