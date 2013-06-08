@@ -127,8 +127,13 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getBestMovies(int minVotes, double minRating, int limit) {
-		// TODO: implement
 		DBCursor best = null;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put("votes", new BasicDBObject("$gt", minVotes));
+		query.put("rating", new BasicDBObject("$gt", minRating));
+		
+		best = movies.find(query).sort(new BasicDBObject("_id", -1)).limit(limit);
 		return best;
 	}
 
