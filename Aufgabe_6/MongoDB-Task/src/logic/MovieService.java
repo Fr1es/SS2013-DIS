@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -149,8 +150,24 @@ public class MovieService extends MovieServiceBase {
 	 */
 	public DBCursor getByGenre(String genreList, int limit) {
 		String[] genres = genreList.split(",");
-		//TODO: implement
 		DBCursor result = null;
+		
+		
+		//building the genres query:
+		ArrayList<BasicDBObject> andList = new ArrayList<BasicDBObject>();
+		
+		
+		for (int i = 0; i<genres.length; i++) {
+			andList.add( new BasicDBObject("genre", genres[i].trim() ) );
+			System.out.println("index: "+i);
+		}
+		
+		//the bigger query:
+		BasicDBObject query = new BasicDBObject();
+		query.put("$and", andList);
+		
+		result = movies.find(query).limit(limit);		
+		
 		return result;
 	}
 
