@@ -243,6 +243,12 @@ public class MovieService extends MovieServiceBase {
 	 */
 	public void saveMovieComment(String id, String comment) {
 		//TODO: implement
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("comment", comment));
+		
+		BasicDBObject query = new BasicDBObject().append("_id", id);
+		
+		movies.update(query, newDocument);
 
 	}
 
