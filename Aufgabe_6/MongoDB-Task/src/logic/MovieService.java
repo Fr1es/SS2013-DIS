@@ -505,7 +505,7 @@ public class MovieService extends MovieServiceBase {
 	public GridFSDBFile getFile(String name) {
 		
 		GridFSDBFile file = null;
-		//TODO: implement
+
 		file = fs.findOne(name);
 		
 		if (file == null) {
@@ -528,7 +528,13 @@ public class MovieService extends MovieServiceBase {
 		GridFSInputFile gFile = null;
 		//Remove old versions
 		fs.remove(name);
-		//TODO: implement
+		//von hier an meins:
+
+		gFile = fs.createFile(inputStream);
+		gFile.setContentType(contentType);
+		gFile.setFilename(name);
+		gFile.save();
+		
 	}
 
 	// Given Helper Functions:
