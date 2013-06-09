@@ -159,7 +159,6 @@ public class MovieService extends MovieServiceBase {
 		
 		for (int i = 0; i<genres.length; i++) {
 			andList.add( new BasicDBObject("genre", genres[i].trim() ) );
-			System.out.println("index: "+i);
 		}
 		
 		//the bigger query:
@@ -260,8 +259,12 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getGeotaggedTweets(int limit) {
-		//TODO : implement
 		DBCursor result = null;
+
+		BasicDBObject query = new BasicDBObject();
+		query.put("coordinates", new BasicDBObject("$exists", true));
+		result = tweets.find(query);
+		
 		return result;
 	}
 
@@ -277,10 +280,22 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getTaggedTweets() {
-		//TODO : implement
 		DBObject projection = null;
 		DBObject query = null;
 		DBObject sort = null;
+
+		//made
+		projection = new BasicDBObject();
+		projection.put("text", true);
+		projection.put("movie", true);
+		projection.put("user.name", true);
+		projection.put("coordinates", true);
+		
+		query = new BasicDBObject("coordinates", new BasicDBObject("$exists", true));
+		
+		sort = new BasicDBObject("_id", -1);
+		// /made
+		
 		DBCursor results = tweets.find(query, projection).sort(sort);
 		return results;
 	}
