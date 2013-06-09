@@ -503,9 +503,16 @@ public class MovieService extends MovieServiceBase {
 	 * @return The retrieved GridFS File
 	 */
 	public GridFSDBFile getFile(String name) {
-		//TODO: implement
+		
 		GridFSDBFile file = null;
-		return file;
+		//TODO: implement
+		file = fs.findOne(name);
+		
+		if (file == null) {
+			return fs.findOne("sample.png");
+		} else {
+			return file;
+		}
 	}
 
 	/**
