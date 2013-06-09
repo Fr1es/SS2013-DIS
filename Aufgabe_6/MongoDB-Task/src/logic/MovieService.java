@@ -265,7 +265,7 @@ public class MovieService extends MovieServiceBase {
 		query.put("coordinates", new BasicDBObject("$exists", true));
 		result = tweets.find(query);
 		
-		return result;
+		return result.limit(limit);
 	}
 
 	/**
@@ -382,9 +382,14 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getByTweetsKeywordRegex(String keyword, int limit) {
-		//TODO : implement
 		DBCursor result = null;
-		return result;
+
+		DBObject query = new BasicDBObject();
+		query.put("tweets.text", Pattern.compile(".*" + keyword + ".*"));
+		result = movies.find(query);
+		
+		
+		return result.limit(limit);
 	}
 
 	/**
@@ -433,9 +438,11 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getNewestTweets(int limit) {
-		//TODO : implement
-		DBCursor result = null;
-		return result;
+		DBCursor result = null;		
+
+		result = tweets.find().sort(new BasicDBObject("_id", -1));
+		
+		return result.limit(limit);
 	}
 
 	/**
