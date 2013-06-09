@@ -184,8 +184,10 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor searchByPrefix(String titlePrefix, int limit) {
-		//TODO: implement
 		DBObject prefixQuery = null;
+
+		prefixQuery = new BasicDBObject("title", Pattern.compile("^" + titlePrefix + ".*"));
+		
 		return movies.find(prefixQuery).limit(limit);
 	}
 
@@ -221,8 +223,12 @@ public class MovieService extends MovieServiceBase {
 	 * @return the DBCursor for the query
 	 */
 	public DBCursor getTweetedMovies() {
-		//TODO: implement
 		DBCursor results = null;
+
+		DBObject query = new BasicDBObject();
+		query.put("tweets", new BasicDBObject("$exists", true));
+		results = movies.find(query);
+		
 		return results;
 	}
 
