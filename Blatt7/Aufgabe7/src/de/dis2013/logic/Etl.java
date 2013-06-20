@@ -2,6 +2,7 @@ package de.dis2013.logic;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import de.dis2013.db.DWHConnectionManager;
@@ -27,6 +28,9 @@ public class Etl {
 	 */
 	public void startFullLoad() {
 		System.out.println(" -- de.dis2013.logic.Etl START full load --");
+		//masterdata
+		loadDimShop();
+		loadDimArticle();
 		
 		
 		System.out.println(" -- de.dis.2013.logic.Etl END full load --");
@@ -61,12 +65,39 @@ public class Etl {
 	 */
 	private void loadDimShop() {
 		//TODO
-		String sql = "SELECT sho.NAME as NAME, sta.NAME as TOWN, reg.NAME as REGION, lan.NAME as COUNTRY"+
-						"FROM SHOPID sho"+
-							"join STADTID sta on sho.STADTID = sta.STADTID"+
-								"join REGIONID reg on sta.REGIONID = reg.REGIONID"+
+		String sql = "SELECT sho.NAME as NAME, sta.NAME as TOWN, reg.NAME as REGION, lan.NAME as COUNTRY "+
+						"FROM SHOPID sho "+
+							"join STADTID sta on sho.STADTID = sta.STADTID "+
+								"join REGIONID reg on sta.REGIONID = reg.REGIONID "+
 									"join LANDID lan on reg.LANDID = lan.LANDID";
 		
+		try {
+			String shopName;
+			String townName;
+			String regionName;
+			String countryName;
+			
+			Statement stm = STAMM.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			
+			while(rs.next()) {
+				shopName = rs.getString("NAME");
+				townName = rs.getString("TOWN");
+				regionName = rs.getString("REGION");
+				countryName = rs.getString("COUNTRY");
+				
+				System.out.println(shopName+townName+regionName+countryName);
+				
+				
+
+			}
+			
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		
 		
@@ -77,11 +108,41 @@ public class Etl {
 	 */
 	private void loadDimArticle() {
 		//TODO
-		String sql = "SELECT art.NAME as NAME, gru.NAME as PRODUCTGROUP, fam.NAME as PRODUCTFAMILY, kat.NAME as PRODUCTCATEGORY"+
-						"FROM ARTICLEID art"+
-							"join PRODUCTGROUPID gru on art.PRODUCTGROUPID = gru.PRODUCTGROUPID"+
-								"join PRODUCTFAMILYID fam on gru.PRODUCTFAMILYID = fam.PRODUCTFAMILYID"+
+		String sql = "SELECT art.NAME as NAME, gru.NAME as PRODUCTGROUP, fam.NAME as PRODUCTFAMILY, kat.NAME as PRODUCTCATEGORY "+
+						"FROM ARTICLEID art "+
+							"join PRODUCTGROUPID gru on art.PRODUCTGROUPID = gru.PRODUCTGROUPID "+
+								"join PRODUCTFAMILYID fam on gru.PRODUCTFAMILYID = fam.PRODUCTFAMILYID "+
 									"join PRODUCTCATEGORYID kat on kat.PRODUCTCATEGORYID = fam.PRODUCTCATEGORYID";
+		
+		try {
+			String articleName;
+			String productGroup;
+			String productFamily;
+			String productCategory;
+			
+			Statement stm = STAMM.createStatement();
+			ResultSet rs = stm.executeQuery(sql);
+			
+			while(rs.next()) {
+				articleName = rs.getString("NAME");
+				productGroup = rs.getString("PRODUCTGROUP");
+				productFamily = rs.getString("PRODUCTFAMILY");
+				productCategory = rs.getString("PRODUCTCATEGORY");
+				
+				System.out.println(articleName+productGroup+productFamily+productCategory);
+				
+				
+				
+				// SQLERRMC: SHOPID;.NAME as COUNTRYFROM;FROM
+			}
+			
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
