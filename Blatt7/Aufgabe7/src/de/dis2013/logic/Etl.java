@@ -1,5 +1,11 @@
 package de.dis2013.logic;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,56 +38,47 @@ public class Etl {
 		//masterdata
 		loadDimShop();
 		loadDimArticle();
-		
+		loadFact();
 		
 		System.out.println(" -- de.dis.2013.logic.Etl END full load --");
 	}
 	
 	/**
-	 * ETL for DimDay
+	 * Checks if a day exists in DimDay, if not it will be inserted
+	 * @day format must be "dd.mm.yyyy"!!!!
 	 */
-	private void loadDimDay() {
-		//TODO
-		//
-		
-		
-//		Statement stm = con.createStatement();
-//		
-//		System.out.println("--  Mietvertraege:  --");
-//		ResultSet rs = stm.executeQuery("Select VERTRAGSNUMMER,DATUM,ORT,MIETBEGINN,DAUER,NEBENKOSTEN,PID,IMMOID FROM mietvertrag");
-//		while(rs.next()){
-//			int vnr = rs.getInt("VERTRAGSNUMMER");
-//			//datum?
-//			String ort = rs.getString("ORT");
-//			//Mietbeginn?
-//			int dauer = rs.getInt("DAUER");
-//			//Nebenkosten?
-//			int pid = rs.getInt("PID");
-//			int immoId = rs.getInt("IMMOID");
-//
-//		Statement stm = con.createStatement();
-//		
-//		ResultSet rs = stm.executeQuery("Select * FROM makler WHERE login = '"+ getLogin() +"'");
-//
-//		
-//		// FC<ge neues Element hinzu, wenn das Objekt noch keine ID hat.
-//		if (!rs.next()) {
-//			// Achtung, hier wird noch ein Parameter mitgegeben,
-//			// damit spC$ter generierte IDs zurC<ckgeliefert werden!
-//			String insertSQL = "INSERT INTO makler(name, adresse, login, passwort) VALUES (?, ?, ?, ?)";
-//			
-//			
-//			PreparedStatement pstmt = con.prepareStatement(insertSQL);
-//
-//			// Setze Anfrageparameter und fC<hre Anfrage aus
-//			pstmt.setString(1, getName());
-//			pstmt.setString(2, getAddress());
-//			pstmt.setString(3, getLogin());
-//			pstmt.setString(4, getPassword());
-//			pstmt.executeUpdate();
-//
-//			pstmt.close();
-		
+	private void insertDay(String day) {
+		try {
+			String sqlSelect = "SELECT COUNT(*) as NO FROM DIMDAY d WHERE d.DAYID = ?";
+			PreparedStatement stm = DWH.prepareStatement(sqlSelect);
+			stm.setString(1, day);
+			ResultSet rs = stm.executeQuery();
+			rs.next();
+			
+			if (rs.getInt("NO") == 0) { //wenn der tag noch nicht existiert, muss er erstellt werden:
+				String[] dayParts = day.split("\\.");
+				
+				if (dayParts.length == 3) {//wenn es ein gültiger Jahres Wert ist:
+					//calc quarter:
+					int month = Integer.parseInt(dayParts[1]); 
+					int quarter = ((month-1)/3)+1; //((month-1)/3)+1 
+					
+					String sqlInsert = "INSERT INTO DIMDAY (DAYID, MONTH, QUARTER, YEAR) values (?,?,?,?)";
+					PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
+					upStatement.setString(1, day); //dayID
+					upStatement.setString(2, dayParts[1]+"/"+dayParts[2]); //month "mm/yyyy"
+					upStatement.setString(3, "Q"+quarter+", "+dayParts[2]); //quarter "Q1, yyyy"
+					upStatement.setString(4, dayParts[2]); //year
+					upStatement.execute();
+					upStatement.close();		
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+			
+			
+			
 	}
 	
 	/**
@@ -214,6 +211,52 @@ public class Etl {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * loads the fact Table from the csv-File
+	 */
+	public void loadFact() {
+		System.out.println("de.dis2013.logic.Etl - fact load from csv start");
+		//TODO
+		try {
+			String[] parts;
+			String date;
+			String shopName;
+			String articleName;
+			int sold;
+			int turnover;
+			int articleID;
+			int shopID;
+			FileReader fr = new FileReader("src\\de\\dis2013\\db\\sales.csv");
+			BufferedReader br = new BufferedReader(fr);
+			
+			String line = br.readLine(); //erste zeile überspringen
+			line = br.readLine();
+			
+			while(line != null) {
+				//read rows:
+				parts = line.split("\\;");
+				date = parts[0];
+				shopName = parts[1];
+				articleName = parts[2];
+				sold = Integer.parseInt(parts[3]);
+				turnover = Integer.parseInt(parts[4]);
+				
+				
+				
+				
+				line = br.readLine();
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("CSV-FILE NOT FOUND! ! !");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("de.dis2013.logic.Etl - fact load from csv successfully finished");
 	}
 
 }
