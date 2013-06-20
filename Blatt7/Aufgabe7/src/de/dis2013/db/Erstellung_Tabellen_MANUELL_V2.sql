@@ -1,6 +1,6 @@
 CREATE TABLE vsisp17.DimDay
 (
-dayID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 100, INCREMENT BY 1),
+dayID INTEGER NOT NULL,
 date varchar(50),
 month varchar(50),
 quarter varchar(50),
@@ -10,7 +10,7 @@ primary key (dayID)
 
 CREATE TABLE vsisp17.DimShop
 (
-shopID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 100, INCREMENT BY 1),
+shopID INTEGER NOT NULL,
 name varchar(50),
 town varchar(50),
 region varchar(50),
@@ -20,7 +20,7 @@ primary key (shopID)
 
 CREATE TABLE vsisp17.DimArticle
 (
-articleID INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 100, INCREMENT BY 1),
+articleID INTEGER NOT NULL,
 name varchar(50),
 productGroup varchar(50),
 productFamily varchar(50),
