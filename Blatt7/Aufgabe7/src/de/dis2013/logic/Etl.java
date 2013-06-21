@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 import de.dis2013.db.DWHConnectionManager;
 import de.dis2013.db.STAMMDATENConnectionManager;
@@ -218,45 +219,109 @@ public class Etl {
 	 */
 	public void loadFact() {
 		System.out.println("de.dis2013.logic.Etl - fact load from csv start");
-		//TODO
+		HashMap<String, Integer> shopMap = new HashMap<String, Integer>();
+		HashMap<String, Integer> articleMap = new HashMap<String, Integer>();
+
+		//load the Maps from the DWH
 		try {
-			String[] parts;
-			String date;
-			String shopName;
-			String articleName;
-			int sold;
-			int turnover;
-			int articleID;
-			int shopID;
+			String sqlShop = "SELECT SHOPID, NAME FROM DIMSHOP";
+			String sqlArticle = "SELECT ARTICLEID, NAME FROM DIMARTICLE";
+			
+			//load shopMap
+			Statement statementShop = DWH.createStatement();
+			ResultSet rs = statementShop.executeQuery(sqlShop);
+			while(rs.next()) {
+				shopMap.put(rs.getString("NAME"), rs.getInt("SHOPID"));				
+			}
+			
+			//load articleMap
+			Statement statementArticle = DWH.createStatement();
+			rs = statementArticle.executeQuery(sqlArticle);
+			while(rs.next()) {
+				articleMap.put(rs.getString("NAME"), rs.getInt("ARTICLEID"));				
+			}
+			
+//			System.out.println("shopMap: "+shopMap.size()+"; articleMap: "+articleMap.size());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//write into the fact and dimDay table
+		try {
 			FileReader fr = new FileReader("src\\de\\dis2013\\db\\sales.csv");
 			BufferedReader br = new BufferedReader(fr);
+			String[] parts;
+			String CSVdate;
+			String CSVshop;
+			String CSVarticle;
+			int CSVsold;
+			String[] CSVturnover;
+			int turnover;
+			String sqlInsert = "INSERT INTO FACT (DAYID,SHOPID,ARTICLEID,SOLD,TURNOVER) VALUES (?,?,?,?,?)";
+			PreparedStatement upStatement;
 			
-			String line = br.readLine(); //erste zeile überspringen
+			String line = br.readLine(); //skip first line
 			line = br.readLine();
 			
+			int index = 0;
 			while(line != null) {
-				//read rows:
+				//read lines
 				parts = line.split("\\;");
-				date = parts[0];
-				shopName = parts[1];
-				articleName = parts[2];
-				sold = Integer.parseInt(parts[3]);
-				turnover = Integer.parseInt(parts[4]);
+				CSVdate = parts[0];
+				CSVshop = parts[1];
+				CSVarticle = parts[2];
+				CSVsold = Integer.parseInt(parts[3]);
+				//convert turnover from xx,xx to xxxx (int)
+				CSVturnover = parts[4].split("\\,");
+				turnover = (Integer.parseInt(CSVturnover[0]) * 100 ) + (Integer.parseInt(CSVturnover[1]));
+				
+//				System.out.println("shopMap: "+shopMap.get(CSVshop)+"; articleMap: "+articleMap.get(CSVarticle));
+				
+				if ((shopMap.get(CSVshop)) != null && (articleMap.get(CSVarticle) != null)) {					
+					//insert day if needed:
+					insertDay(CSVdate);
+					
+					upStatement = DWH.prepareStatement(sqlInsert);
+					upStatement.setString(1, CSVdate); //date
+					upStatement.setInt(2, shopMap.get(CSVshop)); //shopID
+					upStatement.setInt(3, articleMap.get(CSVarticle)); //articleID
+					upStatement.setInt(4, CSVsold);
+					upStatement.setInt(5, turnover);
+					upStatement.addBatch();
+					
+					index++;
+					if (index%100 == 0) {
+						upStatement.executeBatch();
+						upStatement.close();
+						System.out.println("Batch executed (index == "+index+")");
+					}
+				}
 				
 				
-				
+//				String sqlInsert = "INSERT INTO DIMDAY (DAYID, MONTH, QUARTER, YEAR) values (?,?,?,?)";
+//				PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
+//				upStatement.setString(1, day); //dayID
+//				upStatement.setString(2, dayParts[1]+"/"+dayParts[2]); //month "mm/yyyy"
+//				upStatement.setString(3, "Q"+quarter+", "+dayParts[2]); //quarter "Q1, yyyy"
+//				upStatement.setString(4, dayParts[2]); //year
+//				upStatement.execute();
+//				upStatement.close();		
 				
 				line = br.readLine();
 			}
 			
 			br.close();
-		} catch (FileNotFoundException e) {
-			System.err.println("CSV-FILE NOT FOUND! ! !");
-		} catch (IOException e) {
+			System.out.println("de.dis2013.logic.Etl - fact load from sucessfully finished");
+		} catch(FileNotFoundException e) {
+			System.err.println("FILE NOT FOUND ! ! !");
+		} catch(IOException e) {
+			e.printStackTrace();
+		} 
+		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("de.dis2013.logic.Etl - fact load from csv successfully finished");
+
 	}
 
 }
