@@ -39,6 +39,7 @@ public class Etl {
 		//masterdata
 		loadDimShop();
 		loadDimArticle();
+		loadDimDay();
 		loadFact();
 		
 		System.out.println(" -- de.dis.2013.logic.Etl END full load --");
@@ -48,38 +49,52 @@ public class Etl {
 	 * Checks if a day exists in DimDay, if not it will be inserted
 	 * @day format must be "dd.mm.yyyy"!!!!
 	 */
-	private void insertDay(String day) {
-		try {
-			String sqlSelect = "SELECT COUNT(*) as NO FROM DIMDAY d WHERE d.DAYID = ?";
-			PreparedStatement stm = DWH.prepareStatement(sqlSelect);
-			stm.setString(1, day);
-			ResultSet rs = stm.executeQuery();
-			rs.next();
+	private void loadDimDay() {
+		System.out.println("de.dis2013.logic.Etl - load dimension day - starting");
+
+		insertMonth(31, 1, 2013);
+		insertMonth(28, 2, 2013);
+		insertMonth(31, 3, 2013);
+		insertMonth(30, 4, 2013);
+		insertMonth(31, 5, 2013);
 			
-			if (rs.getInt("NO") == 0) { //wenn der tag noch nicht existiert, muss er erstellt werden:
-				String[] dayParts = day.split("\\.");
+		System.out.println("de.dis2013.logic.Etl - load dimension day - successfully finshed");
+	}
+	
+	/**
+	 * Helper Class for loadDimDay. inserts a whole month to the table dimDay
+	 */
+	private void insertMonth(int dayMax, int month, int year) {
+		String sqlInsert = "INSERT INTO DIMDAY (DAYID, MONTH, QUARTER, YEAR) values (?,?,?,?)";
+		String monthAsString = (month < 10) ? "0"+month : ""+month;
+		int quarter = ((month-1)/3)+1;
+		String yearAsString = ""+year;
+		String quarterAsString = "Q"+quarter+", "+yearAsString;
+		
+		try {
+			PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
+			
+			for (int day = 1; day<=dayMax; day++) {
+				String dayAsString = (day < 10) ? "0"+day : ""+day;
+				String dayId = dayAsString+"."+monthAsString+"."+yearAsString;
 				
-				if (dayParts.length == 3) {//wenn es ein gültiger Jahres Wert ist:
-					//calc quarter:
-					int month = Integer.parseInt(dayParts[1]); 
-					int quarter = ((month-1)/3)+1; //((month-1)/3)+1 
-					
-					String sqlInsert = "INSERT INTO DIMDAY (DAYID, MONTH, QUARTER, YEAR) values (?,?,?,?)";
-					PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
-					upStatement.setString(1, day); //dayID
-					upStatement.setString(2, dayParts[1]+"/"+dayParts[2]); //month "mm/yyyy"
-					upStatement.setString(3, "Q"+quarter+", "+dayParts[2]); //quarter "Q1, yyyy"
-					upStatement.setString(4, dayParts[2]); //year
-					upStatement.execute();
-					upStatement.close();		
-				}
+				upStatement.setString(1, dayId);
+				upStatement.setString(2, monthAsString);
+				upStatement.setString(3, quarterAsString);
+				upStatement.setString(4, yearAsString);
+				upStatement.addBatch();
 			}
+			
+			upStatement.executeBatch();
+			DWH.commit();
+			upStatement.close();
+			
+			System.out.println("de.dis2013.logic.Etl - added month "+month);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-			
-			
-			
+		
+		
 	}
 	
 	/**
@@ -241,11 +256,13 @@ public class Etl {
 				articleMap.put(rs.getString("NAME"), rs.getInt("ARTICLEID"));				
 			}
 			
-//			System.out.println("shopMap: "+shopMap.size()+"; articleMap: "+articleMap.size());
+			System.out.println("shopMap: "+shopMap.size()+"; articleMap: "+articleMap.size()); //debug
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
+		int index = 0;
+		String line = null;
 		//write into the fact and dimDay table
 		try {
 			FileReader fr = new FileReader("src\\de\\dis2013\\db\\sales.csv");
@@ -260,10 +277,10 @@ public class Etl {
 			String sqlInsert = "INSERT INTO FACT (DAYID,SHOPID,ARTICLEID,SOLD,TURNOVER) VALUES (?,?,?,?,?)";
 			PreparedStatement upStatement;
 			
-			String line = br.readLine(); //skip first line
+			br.readLine(); //skip first line
 			line = br.readLine();
 			
-			int index = 0;
+
 			while(line != null) {
 				//read lines
 				parts = line.split("\\;");
@@ -275,11 +292,9 @@ public class Etl {
 				CSVturnover = parts[4].split("\\,");
 				turnover = (Integer.parseInt(CSVturnover[0]) * 100 ) + (Integer.parseInt(CSVturnover[1]));
 				
-//				System.out.println("shopMap: "+shopMap.get(CSVshop)+"; articleMap: "+articleMap.get(CSVarticle));
+//				System.out.println("shopMap: "+shopMap.get(CSVshop)+"; articleMap: "+articleMap.get(CSVarticle)); //debug
 				
-				if ((shopMap.get(CSVshop)) != null && (articleMap.get(CSVarticle) != null)) {					
-					//insert day if needed:
-					insertDay(CSVdate);
+				if ((shopMap.get(CSVshop)) != null && (articleMap.get(CSVarticle) != null)) {
 					
 					upStatement = DWH.prepareStatement(sqlInsert);
 					upStatement.setString(1, CSVdate); //date
@@ -288,24 +303,19 @@ public class Etl {
 					upStatement.setInt(4, CSVsold);
 					upStatement.setInt(5, turnover);
 					upStatement.addBatch();
+
+//					System.out.println("addBatch(): "+CSVdate+shopMap.get(CSVshop)+articleMap.get(CSVarticle)+CSVsold+turnover);
 					
 					index++;
-					if (index%100 == 0) {
+					if (index%1000 == 0) {
 						upStatement.executeBatch();
-						upStatement.close();
+						DWH.commit();
+						upStatement.clearBatch();
+//						upStatement.close();
 						System.out.println("Batch executed (index == "+index+")");
 					}
 				}
 				
-				
-//				String sqlInsert = "INSERT INTO DIMDAY (DAYID, MONTH, QUARTER, YEAR) values (?,?,?,?)";
-//				PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
-//				upStatement.setString(1, day); //dayID
-//				upStatement.setString(2, dayParts[1]+"/"+dayParts[2]); //month "mm/yyyy"
-//				upStatement.setString(3, "Q"+quarter+", "+dayParts[2]); //quarter "Q1, yyyy"
-//				upStatement.setString(4, dayParts[2]); //year
-//				upStatement.execute();
-//				upStatement.close();		
 				
 				line = br.readLine();
 			}
@@ -319,6 +329,8 @@ public class Etl {
 		} 
 		catch(SQLException e) {
 			e.printStackTrace();
+			System.out.println("index: "+index);
+			System.out.println("Error at line: "+line);
 		}
 		
 
