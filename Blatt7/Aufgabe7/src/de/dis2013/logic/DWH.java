@@ -1,6 +1,10 @@
 package de.dis2013.logic;
 
+import java.sql.Connection;
 import java.util.ArrayList;
+
+import de.dis2013.db.DWHConnectionManager;
+import de.dis2013.db.STAMMDATENConnectionManager;
 
 public class DWH {
 	
@@ -10,9 +14,12 @@ public class DWH {
 	// list of current attribute states
 	private ArrayList<String> attributes;
 	
-	private ArrayList<String> place;
-	private ArrayList<String> time;
-	private ArrayList<String> product;
+	private final ArrayList<String> place;
+	private final ArrayList<String> time;
+	private final ArrayList<String> product;
+	
+	private final Connection DWH;
+	private final Connection STAMM;
 	
 	/**
 	 * Constructor
@@ -25,25 +32,28 @@ public class DWH {
 		place.add("region");
 		place.add("country");
 		
-		// list of possible time hierarchies
+		// list of possible time hierarchy levels
 		time = new ArrayList<String>();
 		time.add("dayID");
 		time.add("month");
 		time.add("quarter");
 		time.add("year");
 		
-		// list of possible product hierarchies
+		// list of possible product hierarchy levels
 		product = new ArrayList<String>();
 		product.add("name");
 		product.add("productGroup");
 		product.add("productFamily");
 		product.add("productCategory");
 		
-		// list of current hierarchies
+		// list of current hierarchy levels
 		attributes = new ArrayList<String>();
 		attributes.add("town"); // place - i.e. name, town, region, country
 		attributes.add("quarter"); // time - i.e. dayID, month, quarter, year
 		attributes.add("name"); // product - i.e. name, productGroup, productFamily, productCategory
+		
+		DWH = DWHConnectionManager.getInstance().getConnection();
+		STAMM = STAMMDATENConnectionManager.getInstance().getConnection();
 	}
 	
 	/**
@@ -157,7 +167,7 @@ public class DWH {
 	}
 	
 	/**
-	 * 
+	 * Drills down one hierarchy level on the chosen attribute.
 	 * @param attributeName
 	 */
 	public void drillDown(String attributeName) {
@@ -166,7 +176,7 @@ public class DWH {
 	}
 	
 	/**
-	 * 
+	 * Rolls up one hierarchy level on the chosen attribute.
 	 * @param attributeName
 	 */
 	public void rollUp(String attributeName) {
