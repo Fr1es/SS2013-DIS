@@ -232,7 +232,7 @@ public class Etl {
 	/**
 	 * loads the fact Table from the csv-File
 	 */
-	public void loadFact() {
+	private void loadFact() {
 		System.out.println("de.dis2013.logic.Etl - fact load from csv start");
 		HashMap<String, Integer> shopMap = new HashMap<String, Integer>();
 		HashMap<String, Integer> articleMap = new HashMap<String, Integer>();
@@ -256,7 +256,7 @@ public class Etl {
 				articleMap.put(rs.getString("NAME"), rs.getInt("ARTICLEID"));				
 			}
 			
-			System.out.println("shopMap: "+shopMap.size()+"; articleMap: "+articleMap.size()); //debug
+//			System.out.println("shopMap: "+shopMap.size()+"; articleMap: "+articleMap.size()); //debug
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -275,7 +275,8 @@ public class Etl {
 			String[] CSVturnover;
 			int turnover;
 			String sqlInsert = "INSERT INTO FACT (DAYID,SHOPID,ARTICLEID,SOLD,TURNOVER) VALUES (?,?,?,?,?)";
-			PreparedStatement upStatement;
+			DWH.setAutoCommit(false);
+			PreparedStatement upStatement = DWH.prepareStatement(sqlInsert);
 			
 			br.readLine(); //skip first line
 			line = br.readLine();
@@ -296,7 +297,7 @@ public class Etl {
 				
 				if ((shopMap.get(CSVshop)) != null && (articleMap.get(CSVarticle) != null)) {
 					
-					upStatement = DWH.prepareStatement(sqlInsert);
+
 					upStatement.setString(1, CSVdate); //date
 					upStatement.setInt(2, shopMap.get(CSVshop)); //shopID
 					upStatement.setInt(3, articleMap.get(CSVarticle)); //articleID
@@ -311,7 +312,6 @@ public class Etl {
 						upStatement.executeBatch();
 						DWH.commit();
 						upStatement.clearBatch();
-//						upStatement.close();
 						System.out.println("Batch executed (index == "+index+")");
 					}
 				}
@@ -319,6 +319,16 @@ public class Etl {
 				
 				line = br.readLine();
 			}
+			
+			//Last insert:
+			upStatement.executeBatch();
+			DWH.commit();
+			upStatement.clearBatch();
+			System.out.println("Batch executed (index == "+index+")");
+			
+			//cleaning up:
+			upStatement.close();
+			DWH.setAutoCommit(true);
 			
 			br.close();
 			System.out.println("de.dis2013.logic.Etl - fact load from sucessfully finished");
