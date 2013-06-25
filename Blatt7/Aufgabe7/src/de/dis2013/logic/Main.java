@@ -26,7 +26,7 @@ public class Main {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		
 		while (true) {
-			System.out.println(" Which attribute to use?");
+			System.out.println(" Which attribute to use? (place, time, product)");
 
 			String attributeName = null;
 			try {
