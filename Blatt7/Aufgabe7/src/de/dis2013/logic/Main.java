@@ -13,48 +13,34 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println(" ----- Application START -----");
 		
-		//starting the etl-process:
-		Etl etl = new Etl();
-		etl.clearDWH();
-		etl.startFullLoad();
-		
-		DWH dwh = new DWH();
-		
-		System.out.println(dwh);
-		
-		// for reading stuff
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		
-		while (true) {
-			System.out.println(" Which attribute to use? (place, time, product)");
-
-			String attributeName = null;
-			try {
-				attributeName = reader.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			// for reading stuff
+			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+			
+			System.out.println("Start Full-Load? (y/n)");
+			String input = reader.readLine();
+			
+			if (input.equals("y")) {
+				System.out.println("Starting Full-Load as requested from user");
+				//starting the etl-process:
+				Etl etl = new Etl();
+				etl.clearDWH();
+				etl.startFullLoad();
+			} else {
+				System.out.println("No Full-Load will be executed");
 			}
 			
-			System.out.println(" Use drill down (0) or roll up (1)?");
-			int action = -1;
-			try {
-				action = Integer.parseInt(reader.readLine());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println();
+			System.out.println("-- Starting the Reporting-Tool for the DWH --");
+			DWH dwh = new DWH();
+			dwh.dwhCube("NAME", "QUARTER", "PRODUCTFAMILY");
 			
-			if (action == 0) {
-				dwh.drillDown(attributeName);
-			} else if (action == 1) {
-				dwh.rollUp(attributeName);
-			}
-			
-			System.out.println(dwh);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		// System.out.println(" ----- Application END -----");
+
+
+		 System.out.println(" ----- Application END -----");
 	}
 
 }
