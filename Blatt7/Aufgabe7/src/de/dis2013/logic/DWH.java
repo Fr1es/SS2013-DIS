@@ -6,31 +6,39 @@ import de.dis2013.db.DWHConnectionManager;
 
 public class DWH {
 	private final Connection DWH;
-	private final String cubeSql;
+	private  String cubeSql;
 	/**
 	 * Constructor
 	 */
 	public DWH() {
 		DWH = DWHConnectionManager.getInstance().getConnection();
-//		cubeSql = "select ?, ?, ?, cast( sum(f.SOLD) as DOUBLE) as Sold, round(sum( cast(f.TURNOVER as DOUBLE) /1000000)/100, 3) as TurnoverMIO "+
-//					"from vsisp17.fact f "+ 
-//						"join vsisp17.DIMSHOP s on (f.SHOPID = s.SHOPID) "+
-//							"join vsisp17.DIMARTICLE a on (f.ARTICLEID = a.ARTICLEID) "+
-//								"join vsisp17.DIMDAY d on (f.DAYID = d.DAYID) "+
-//									"group by cube (?, ?, ?) "+
-//										"order by ?, ?, ? ";
-		cubeSql = "select s.NAME, d.QUARTER, a.PRODUCTFAMILY, cast( sum(f.SOLD) as DOUBLE) as Anz, round(sum( cast(f.TURNOVER as DOUBLE) /1000000)/100, 3) as Verkauft_in_MIO "+
-"from vsisp17.fact f "+ 
-"join vsisp17.DIMSHOP s on (f.SHOPID = s.SHOPID) "+
-"join vsisp17.DIMARTICLE a on (f.ARTICLEID = a.ARTICLEID) "+
-"join vsisp17.DIMDAY d on (f.DAYID = d.DAYID) "+
-"group by cube (s.name, d.quarter, a.PRODUCTFAMILY) "+
-"order by s.name, d.quarter, a.PRODUCTFAMILY";
+		cubeSql = "select ?, ?, ?, cast( sum(f.SOLD) as DOUBLE) as Sold, round(sum( cast(f.TURNOVER as DOUBLE) /1000000)/100, 3) as TurnoverMIO "+
+					"from vsisp17.fact f "+ 
+						"join vsisp17.DIMSHOP s on (f.SHOPID = s.SHOPID) "+
+							"join vsisp17.DIMARTICLE a on (f.ARTICLEID = a.ARTICLEID) "+
+								"join vsisp17.DIMDAY d on (f.DAYID = d.DAYID) "+
+									"group by cube (?, ?, ?) "+
+										"order by ?, ?, ? ";
+//		cubeSql = "select s.NAME, d.QUARTER, a.PRODUCTFAMILY, cast( sum(f.SOLD) as DOUBLE) as Anz, round(sum( cast(f.TURNOVER as DOUBLE) /1000000)/100, 3) as Verkauft_in_MIO "+
+//"from vsisp17.fact f "+ 
+//"join vsisp17.DIMSHOP s on (f.SHOPID = s.SHOPID) "+
+//"join vsisp17.DIMARTICLE a on (f.ARTICLEID = a.ARTICLEID) "+
+//"join vsisp17.DIMDAY d on (f.DAYID = d.DAYID) "+
+//"group by cube (s.name, d.quarter, a.PRODUCTFAMILY) "+
+//"order by s.name, d.quarter, a.PRODUCTFAMILY";
 	}
 	
 	public void dwhCube(String shop, String day, String article) {
 		try {
-			PreparedStatement upStatement = DWH.prepareStatement(cubeSql);
+			String cubeSQL = "select s."+shop+", d."+day+", a."+article+", cast( sum(f.SOLD) as DOUBLE) as Sold, round(sum( cast(f.TURNOVER as DOUBLE) /1000000)/100, 3) as TurnoverMIO "+
+					"from vsisp17.fact f "+ 
+						"join vsisp17.DIMSHOP s on (f.SHOPID = s.SHOPID) "+
+							"join vsisp17.DIMARTICLE a on (f.ARTICLEID = a.ARTICLEID) "+
+								"join vsisp17.DIMDAY d on (f.DAYID = d.DAYID) "+
+									"group by cube (s."+shop+", d."+day+", a."+article+") "+
+										"order by s."+shop+", d."+day+", a."+article+" ";
+			
+//			PreparedStatement upStatement = DWH.prepareStatement(cubeSql);
 //			upStatement.setString(1, "s."+shop);
 //			upStatement.setString(2, "d."+day);
 //			upStatement.setString(3, "a."+article);
@@ -40,10 +48,11 @@ public class DWH {
 //			upStatement.setString(7, "s."+shop);
 //			upStatement.setString(8, "d."+day);
 //			upStatement.setString(9, "a."+article);
+//			
 			
-			
-			System.out.println("executing");
-			ResultSet rs = upStatement.executeQuery();
+//			System.out.println("executing");
+			Statement stm = DWH.createStatement();
+			ResultSet rs = stm.executeQuery(cubeSQL);
 			//output:
 			dwhOutput(rs, shop, day, article);
 			rs.close();
